@@ -24,22 +24,29 @@ namespace ViveDB {
     
     public partial class InputSystemBase : uFrame.ECS.Systems.EcsSystem, uFrame.ECS.APIs.ISystemUpdate {
         
-        private IEcsComponentManagerOf<Wand> _WandManager;
+        private IEcsComponentManagerOf<Wands> _WandsManager;
+        
+        private IEcsComponentManagerOf<Player> _PlayerManager;
         
         private IEcsComponentManagerOf<WandRight> _WandRightManager;
         
         private IEcsComponentManagerOf<WandLeft> _WandLeftManager;
         
-        private IEcsComponentManagerOf<Wands> _WandsManager;
-        
-        private InputSystemTriggerEventHandler InputSystemTriggerEventHandlerInstance = new InputSystemTriggerEventHandler();
-        
-        public IEcsComponentManagerOf<Wand> WandManager {
+        public IEcsComponentManagerOf<Wands> WandsManager {
             get {
-                return _WandManager;
+                return _WandsManager;
             }
             set {
-                _WandManager = value;
+                _WandsManager = value;
+            }
+        }
+        
+        public IEcsComponentManagerOf<Player> PlayerManager {
+            get {
+                return _PlayerManager;
+            }
+            set {
+                _PlayerManager = value;
             }
         }
         
@@ -61,37 +68,60 @@ namespace ViveDB {
             }
         }
         
-        public IEcsComponentManagerOf<Wands> WandsManager {
-            get {
-                return _WandsManager;
-            }
-            set {
-                _WandsManager = value;
-            }
-        }
-        
         public override void Setup() {
             base.Setup();
-            WandManager = ComponentSystem.RegisterComponent<Wand>(4);
+            WandsManager = ComponentSystem.RegisterComponent<Wands>(5);
+            PlayerManager = ComponentSystem.RegisterComponent<Player>(6);
             WandRightManager = ComponentSystem.RegisterComponent<WandRight>(1);
             WandLeftManager = ComponentSystem.RegisterComponent<WandLeft>(3);
-            WandsManager = ComponentSystem.RegisterGroup<WandsGroup,Wands>();
+            this.OnEvent<ViveDB.MoveEvent>().Subscribe(_=>{ InputSystemMoveEventFilter(_); }).DisposeWith(this);
+            this.OnEvent<ViveDB.TeleportEvent>().Subscribe(_=>{ InputSystemTeleportEventFilter(_); }).DisposeWith(this);
+            this.OnEvent<ViveDB.ShootEvent>().Subscribe(_=>{ InputSystemShootEventFilter(_); }).DisposeWith(this);
             this.OnEvent<uFrame.Kernel.KernelLoadedEvent>().Subscribe(_=>{ InputSystemKernelLoadedFilter(_); }).DisposeWith(this);
-            this.OnEvent<ViveDB.TriggerEvent>().Subscribe(_=>{ InputSystemTriggerEventFilter(_); }).DisposeWith(this);
         }
         
-        protected virtual void InputSystemUpdateHandler(Wand group) {
+        protected virtual void InputSystemMoveEventHandler(ViveDB.MoveEvent data, Player group) {
+        }
+        
+        protected void InputSystemMoveEventFilter(ViveDB.MoveEvent data) {
+            var PlayerItems = PlayerManager.Components;
+            for (var PlayerIndex = 0
+            ; PlayerIndex < PlayerItems.Count; PlayerIndex++
+            ) {
+                if (!PlayerItems[PlayerIndex].Enabled) {
+                    continue;
+                }
+                this.InputSystemMoveEventHandler(data, PlayerItems[PlayerIndex]);
+            }
+        }
+        
+        protected virtual void InputSystemTeleportEventHandler(ViveDB.TeleportEvent data, Wands group) {
+        }
+        
+        protected void InputSystemTeleportEventFilter(ViveDB.TeleportEvent data) {
+            var WandsItems = WandsManager.Components;
+            for (var WandsIndex = 0
+            ; WandsIndex < WandsItems.Count; WandsIndex++
+            ) {
+                if (!WandsItems[WandsIndex].Enabled) {
+                    continue;
+                }
+                this.InputSystemTeleportEventHandler(data, WandsItems[WandsIndex]);
+            }
+        }
+        
+        protected virtual void InputSystemUpdateHandler(Wands group) {
         }
         
         protected void InputSystemUpdateFilter() {
-            var WandItems = WandManager.Components;
-            for (var WandIndex = 0
-            ; WandIndex < WandItems.Count; WandIndex++
+            var WandsItems = WandsManager.Components;
+            for (var WandsIndex = 0
+            ; WandsIndex < WandsItems.Count; WandsIndex++
             ) {
-                if (!WandItems[WandIndex].Enabled) {
+                if (!WandsItems[WandsIndex].Enabled) {
                     continue;
                 }
-                this.InputSystemUpdateHandler(WandItems[WandIndex]);
+                this.InputSystemUpdateHandler(WandsItems[WandsIndex]);
             }
         }
         
@@ -99,30 +129,34 @@ namespace ViveDB {
             InputSystemUpdateFilter();
         }
         
-        protected virtual void InputSystemKernelLoadedHandler(uFrame.Kernel.KernelLoadedEvent data, Wand group) {
+        protected virtual void InputSystemShootEventHandler(ViveDB.ShootEvent data, Wands group) {
         }
         
-        protected void InputSystemKernelLoadedFilter(uFrame.Kernel.KernelLoadedEvent data) {
-            var WandItems = WandManager.Components;
-            for (var WandIndex = 0
-            ; WandIndex < WandItems.Count; WandIndex++
+        protected void InputSystemShootEventFilter(ViveDB.ShootEvent data) {
+            var WandsItems = WandsManager.Components;
+            for (var WandsIndex = 0
+            ; WandsIndex < WandsItems.Count; WandsIndex++
             ) {
-                if (!WandItems[WandIndex].Enabled) {
+                if (!WandsItems[WandsIndex].Enabled) {
                     continue;
                 }
-                this.InputSystemKernelLoadedHandler(data, WandItems[WandIndex]);
+                this.InputSystemShootEventHandler(data, WandsItems[WandsIndex]);
             }
         }
         
-        protected virtual void InputSystemTriggerEventHandler(ViveDB.TriggerEvent data) {
-            var handler = InputSystemTriggerEventHandlerInstance;
-            handler.System = this;
-            handler.Event = data;
-            StartCoroutine(handler.Execute());
+        protected virtual void InputSystemKernelLoadedHandler(uFrame.Kernel.KernelLoadedEvent data, Wands group) {
         }
         
-        protected void InputSystemTriggerEventFilter(ViveDB.TriggerEvent data) {
-            this.InputSystemTriggerEventHandler(data);
+        protected void InputSystemKernelLoadedFilter(uFrame.Kernel.KernelLoadedEvent data) {
+            var WandsItems = WandsManager.Components;
+            for (var WandsIndex = 0
+            ; WandsIndex < WandsItems.Count; WandsIndex++
+            ) {
+                if (!WandsItems[WandsIndex].Enabled) {
+                    continue;
+                }
+                this.InputSystemKernelLoadedHandler(data, WandsItems[WandsIndex]);
+            }
         }
     }
     

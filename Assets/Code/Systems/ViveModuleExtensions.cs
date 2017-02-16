@@ -23,6 +23,20 @@ static
         
         #region 
 static
+        public uFrame.ECS.APIs.IEcsComponentManagerOf<Wands> WandsManager(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<Wands>();
+        }
+        #endregion
+        
+        #region 
+static
+        public uFrame.ECS.APIs.IEcsComponentManagerOf<Player> PlayerManager(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<Player>();
+        }
+        #endregion
+        
+        #region 
+static
         public uFrame.ECS.APIs.IEcsComponentManagerOf<WandRight> WandRightManager(this uFrame.ECS.APIs.IEcsSystem system) {
             return system.ComponentSystem.RegisterComponent<WandRight>();
         }
@@ -37,15 +51,15 @@ static
         
         #region 
 static
-        public uFrame.ECS.APIs.IEcsComponentManagerOf<Wand> WandManager(this uFrame.ECS.APIs.IEcsSystem system) {
-            return system.ComponentSystem.RegisterComponent<Wand>();
+        public List<Wands> WandsComponents(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<Wands>().Components;
         }
         #endregion
         
         #region 
 static
-        public uFrame.ECS.APIs.IEcsComponentManagerOf<Wands> WandsManager(this uFrame.ECS.APIs.IEcsSystem system) {
-            return system.ComponentSystem.RegisterComponent<Wands>();
+        public List<Player> PlayerComponents(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<Player>().Components;
         }
         #endregion
         
@@ -60,20 +74,6 @@ static
 static
         public List<WandLeft> WandLeftComponents(this uFrame.ECS.APIs.IEcsSystem system) {
             return system.ComponentSystem.RegisterComponent<WandLeft>().Components;
-        }
-        #endregion
-        
-        #region 
-static
-        public List<Wand> WandComponents(this uFrame.ECS.APIs.IEcsSystem system) {
-            return system.ComponentSystem.RegisterComponent<Wand>().Components;
-        }
-        #endregion
-        
-        #region 
-static
-        public List<Wands> WandsComponents(this uFrame.ECS.APIs.IEcsSystem system) {
-            return system.ComponentSystem.RegisterComponent<Wands>().Components;
         }
         #endregion
     }
