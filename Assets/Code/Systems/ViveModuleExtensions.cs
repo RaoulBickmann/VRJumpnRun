@@ -23,8 +23,8 @@ static
         
         #region 
 static
-        public uFrame.ECS.APIs.IEcsComponentManagerOf<Wands> WandsManager(this uFrame.ECS.APIs.IEcsSystem system) {
-            return system.ComponentSystem.RegisterComponent<Wands>();
+        public uFrame.ECS.APIs.IEcsComponentManagerOf<WandManager> WandManagerManager(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<WandManager>();
         }
         #endregion
         
@@ -51,8 +51,8 @@ static
         
         #region 
 static
-        public List<Wands> WandsComponents(this uFrame.ECS.APIs.IEcsSystem system) {
-            return system.ComponentSystem.RegisterComponent<Wands>().Components;
+        public List<WandManager> WandManagerComponents(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<WandManager>().Components;
         }
         #endregion
         

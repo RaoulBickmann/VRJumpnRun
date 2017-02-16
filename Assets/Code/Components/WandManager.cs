@@ -23,7 +23,7 @@ namespace ViveDB {
     
     [uFrame.Attributes.ComponentId(5)]
     [uFrame.Attributes.uFrameIdentifier("7414e1c0-7a71-4f3a-a753-c59cb979f1b9")]
-    public partial class Wands : uFrame.ECS.Components.EcsComponent {
+    public partial class WandManager : uFrame.ECS.Components.EcsComponent {
         
         [UnityEngine.SerializeField()]
         private WandLeft _Left;

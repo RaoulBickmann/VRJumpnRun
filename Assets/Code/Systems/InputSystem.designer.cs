@@ -24,29 +24,20 @@ namespace ViveDB {
     
     public partial class InputSystemBase : uFrame.ECS.Systems.EcsSystem, uFrame.ECS.APIs.ISystemUpdate {
         
-        private IEcsComponentManagerOf<Wands> _WandsManager;
-        
-        private IEcsComponentManagerOf<Player> _PlayerManager;
+        private IEcsComponentManagerOf<WandManager> _WandManagerManager;
         
         private IEcsComponentManagerOf<WandRight> _WandRightManager;
         
+        private IEcsComponentManagerOf<Player> _PlayerManager;
+        
         private IEcsComponentManagerOf<WandLeft> _WandLeftManager;
         
-        public IEcsComponentManagerOf<Wands> WandsManager {
+        public IEcsComponentManagerOf<WandManager> WandManagerManager {
             get {
-                return _WandsManager;
+                return _WandManagerManager;
             }
             set {
-                _WandsManager = value;
-            }
-        }
-        
-        public IEcsComponentManagerOf<Player> PlayerManager {
-            get {
-                return _PlayerManager;
-            }
-            set {
-                _PlayerManager = value;
+                _WandManagerManager = value;
             }
         }
         
@@ -56,6 +47,15 @@ namespace ViveDB {
             }
             set {
                 _WandRightManager = value;
+            }
+        }
+        
+        public IEcsComponentManagerOf<Player> PlayerManager {
+            get {
+                return _PlayerManager;
+            }
+            set {
+                _PlayerManager = value;
             }
         }
         
@@ -70,9 +70,9 @@ namespace ViveDB {
         
         public override void Setup() {
             base.Setup();
-            WandsManager = ComponentSystem.RegisterComponent<Wands>(5);
-            PlayerManager = ComponentSystem.RegisterComponent<Player>(6);
+            WandManagerManager = ComponentSystem.RegisterComponent<WandManager>(5);
             WandRightManager = ComponentSystem.RegisterComponent<WandRight>(1);
+            PlayerManager = ComponentSystem.RegisterComponent<Player>(6);
             WandLeftManager = ComponentSystem.RegisterComponent<WandLeft>(3);
             this.OnEvent<ViveDB.MoveEvent>().Subscribe(_=>{ InputSystemMoveEventFilter(_); }).DisposeWith(this);
             this.OnEvent<ViveDB.TeleportEvent>().Subscribe(_=>{ InputSystemTeleportEventFilter(_); }).DisposeWith(this);
@@ -95,67 +95,99 @@ namespace ViveDB {
             }
         }
         
-        protected virtual void InputSystemTeleportEventHandler(ViveDB.TeleportEvent data, Wands group) {
+        protected virtual void InputSystemTeleportEventHandler(ViveDB.TeleportEvent data, WandManager group) {
         }
         
         protected void InputSystemTeleportEventFilter(ViveDB.TeleportEvent data) {
-            var WandsItems = WandsManager.Components;
-            for (var WandsIndex = 0
-            ; WandsIndex < WandsItems.Count; WandsIndex++
+            var WandManagerItems = WandManagerManager.Components;
+            for (var WandManagerIndex = 0
+            ; WandManagerIndex < WandManagerItems.Count; WandManagerIndex++
             ) {
-                if (!WandsItems[WandsIndex].Enabled) {
+                if (!WandManagerItems[WandManagerIndex].Enabled) {
                     continue;
                 }
-                this.InputSystemTeleportEventHandler(data, WandsItems[WandsIndex]);
+                this.InputSystemTeleportEventHandler(data, WandManagerItems[WandManagerIndex]);
             }
         }
         
-        protected virtual void InputSystemUpdateHandler(Wands group) {
+        protected virtual void InputSystemUpdateHandler(WandManager group) {
         }
         
         protected void InputSystemUpdateFilter() {
-            var WandsItems = WandsManager.Components;
-            for (var WandsIndex = 0
-            ; WandsIndex < WandsItems.Count; WandsIndex++
+            var WandManagerItems = WandManagerManager.Components;
+            for (var WandManagerIndex = 0
+            ; WandManagerIndex < WandManagerItems.Count; WandManagerIndex++
             ) {
-                if (!WandsItems[WandsIndex].Enabled) {
+                if (!WandManagerItems[WandManagerIndex].Enabled) {
                     continue;
                 }
-                this.InputSystemUpdateHandler(WandsItems[WandsIndex]);
+                this.InputSystemUpdateHandler(WandManagerItems[WandManagerIndex]);
             }
         }
         
         public virtual void SystemUpdate() {
             InputSystemUpdateFilter();
+            InputSystemUpdateLeftFilter();
+            InputSystemUpdateRightFilter();
         }
         
-        protected virtual void InputSystemShootEventHandler(ViveDB.ShootEvent data, Wands group) {
+        protected virtual void InputSystemShootEventHandler(ViveDB.ShootEvent data, WandManager group) {
         }
         
         protected void InputSystemShootEventFilter(ViveDB.ShootEvent data) {
-            var WandsItems = WandsManager.Components;
-            for (var WandsIndex = 0
-            ; WandsIndex < WandsItems.Count; WandsIndex++
+            var WandManagerItems = WandManagerManager.Components;
+            for (var WandManagerIndex = 0
+            ; WandManagerIndex < WandManagerItems.Count; WandManagerIndex++
             ) {
-                if (!WandsItems[WandsIndex].Enabled) {
+                if (!WandManagerItems[WandManagerIndex].Enabled) {
                     continue;
                 }
-                this.InputSystemShootEventHandler(data, WandsItems[WandsIndex]);
+                this.InputSystemShootEventHandler(data, WandManagerItems[WandManagerIndex]);
             }
         }
         
-        protected virtual void InputSystemKernelLoadedHandler(uFrame.Kernel.KernelLoadedEvent data, Wands group) {
+        protected virtual void InputSystemUpdateLeftHandler(WandLeft group) {
+        }
+        
+        protected void InputSystemUpdateLeftFilter() {
+            var WandLeftItems = WandLeftManager.Components;
+            for (var WandLeftIndex = 0
+            ; WandLeftIndex < WandLeftItems.Count; WandLeftIndex++
+            ) {
+                if (!WandLeftItems[WandLeftIndex].Enabled) {
+                    continue;
+                }
+                this.InputSystemUpdateLeftHandler(WandLeftItems[WandLeftIndex]);
+            }
+        }
+        
+        protected virtual void InputSystemUpdateRightHandler(WandRight group) {
+        }
+        
+        protected void InputSystemUpdateRightFilter() {
+            var WandRightItems = WandRightManager.Components;
+            for (var WandRightIndex = 0
+            ; WandRightIndex < WandRightItems.Count; WandRightIndex++
+            ) {
+                if (!WandRightItems[WandRightIndex].Enabled) {
+                    continue;
+                }
+                this.InputSystemUpdateRightHandler(WandRightItems[WandRightIndex]);
+            }
+        }
+        
+        protected virtual void InputSystemKernelLoadedHandler(uFrame.Kernel.KernelLoadedEvent data, WandManager group) {
         }
         
         protected void InputSystemKernelLoadedFilter(uFrame.Kernel.KernelLoadedEvent data) {
-            var WandsItems = WandsManager.Components;
-            for (var WandsIndex = 0
-            ; WandsIndex < WandsItems.Count; WandsIndex++
+            var WandManagerItems = WandManagerManager.Components;
+            for (var WandManagerIndex = 0
+            ; WandManagerIndex < WandManagerItems.Count; WandManagerIndex++
             ) {
-                if (!WandsItems[WandsIndex].Enabled) {
+                if (!WandManagerItems[WandManagerIndex].Enabled) {
                     continue;
                 }
-                this.InputSystemKernelLoadedHandler(data, WandsItems[WandsIndex]);
+                this.InputSystemKernelLoadedHandler(data, WandManagerItems[WandManagerIndex]);
             }
         }
     }

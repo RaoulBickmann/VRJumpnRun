@@ -1,11 +1,11 @@
 {
-	"Identifier":"f26315c3-643a-491c-b32f-179bba263ac2"	, 
-	"Time":"2/15/2017 10:54:54 AM"	, 
+	"Identifier":"af9c9766-9ca7-4faf-9be7-8c6f227f8d5f"	, 
+	"Time":"2/16/2017 4:51:18 PM"	, 
 	"IsActive":false	, 
-	"FilterId":"87a508dc-5402-4299-bafa-d68562dad086"	, 
+	"FilterId":"c23cda77-0098-43fb-b7b7-a5dc9ba08dce"	, 
 	"WorkspaceId":"30dacf70-c132-4ddf-abf5-c81486cea291"	, 
 	"GraphId":"bb6b8620-a43b-476b-a115-c788fbdf919c"	, 
 	"Scroll":	{
 		"x":0		, 
-		"y":"1.5"	}
+		"y":0	}
 }
