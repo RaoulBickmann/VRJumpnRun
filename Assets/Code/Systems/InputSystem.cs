@@ -1,3 +1,5 @@
+using uFrame.ECS.UnityUtilities;
+
 namespace ViveDB {
     using System;
     using System.Collections;
@@ -17,6 +19,10 @@ namespace ViveDB {
 
         private SteamVR_Controller.Device leftController;
         private SteamVR_Controller.Device rightController;
+        private GameObject grabbedGameObject;
+
+
+
 		public int i = 0;
 
 		protected LineRenderer lineRenderer;
@@ -69,24 +75,57 @@ namespace ViveDB {
             base.InputSystemUpdateLeftHandler(group);
             if (leftController.GetTouch(touchPad))
             {
-                var moveEvent = new MoveEvent();
+                var moveEvent = new PlayerMoveEvent();
                 moveEvent.movement = leftController.GetAxis(touchPad) * Time.deltaTime;
                 Publish(moveEvent);
             }
             if (leftController.GetPressDown(triggerButton))
             {
-                Publish(new ShootEvent());
+                Publish(new JumpEvent());
             }
         }
 
         protected override void InputSystemUpdateRightHandler(WandRight group)
         {
             base.InputSystemUpdateRightHandler(group);
+            if (rightController.GetTouch(touchPad))
+            {
+                var moveEvent = new RigMoveEvent();
+                moveEvent.movement = leftController.GetAxis(touchPad) * Time.deltaTime;
+                Publish(moveEvent);
+            }
             if (rightController.GetPress(triggerButton))
             {
                 
             }
         }
+
+
+        protected override void InputSystemOnCollisionStayHandler(OnCollisionStayDispatcher data, Grabable collider, WandRight source)
+        {
+            base.InputSystemOnCollisionStayHandler(data, collider, source);
+            if (rightController.GetPress(triggerButton) && grabbedGameObject.transform.parent != source.gameObject)
+            {
+                grabbedGameObject.transform.SetParent(source.transform, true);
+            } else if(!rightController.GetPress(triggerButton) && grabbedGameObject.transform.parent == source.gameObject)
+            {
+                grabbedGameObject.transform.SetParent(null);
+            }
+        }
+
+        protected override void InputSystemOnCollisionEnterHandler(OnCollisionEnterDispatcher data, Grabable collider, WandRight source)
+        {
+            base.InputSystemOnCollisionEnterHandler(data, collider, source);
+            grabbedGameObject = collider.gameObject;
+            grabbedGameObject.GetComponent<MeshRenderer>().material.color = Color.red; 
+        }
+
+        protected override void InputSystemOnCollisionExitHandler(OnCollisionExitDispatcher data, Grabable collider, WandRight source)
+        {
+            base.InputSystemOnCollisionExitHandler(data, collider, source);
+            grabbedGameObject.GetComponent<MeshRenderer>().material.color = Color.green;
+        }
+
         //protected override void InputSystemUpdateHandler(WandManager group) {
         //	base.InputSystemUpdateHandler (group);
         //	if (trackedContrRight.triggerPressed) {

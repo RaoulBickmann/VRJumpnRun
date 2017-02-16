@@ -24,6 +24,7 @@ namespace ViveDB {
         public override void Load() {
             EcsSystem system = null;
             system = this.AddSystem<InputSystem>();
+            system = this.AddSystem<PlayerSystem>();
         }
     }
 }

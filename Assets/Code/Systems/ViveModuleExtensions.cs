@@ -44,6 +44,13 @@ static
         
         #region 
 static
+        public uFrame.ECS.APIs.IEcsComponentManagerOf<Grabable> GrabableManager(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<Grabable>();
+        }
+        #endregion
+        
+        #region 
+static
         public uFrame.ECS.APIs.IEcsComponentManagerOf<WandLeft> WandLeftManager(this uFrame.ECS.APIs.IEcsSystem system) {
             return system.ComponentSystem.RegisterComponent<WandLeft>();
         }
@@ -67,6 +74,13 @@ static
 static
         public List<WandRight> WandRightComponents(this uFrame.ECS.APIs.IEcsSystem system) {
             return system.ComponentSystem.RegisterComponent<WandRight>().Components;
+        }
+        #endregion
+        
+        #region 
+static
+        public List<Grabable> GrabableComponents(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<Grabable>().Components;
         }
         #endregion
         

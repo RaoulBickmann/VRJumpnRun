@@ -1,0 +1,12 @@
+{
+	"CodeHandler":false	, 
+	"Custom":false	, 
+	"MetaType":"uFrame.ECS.APIs.ISystemUpdate"	, 
+	"VariableCount":0	, 
+	"StartActionId":"6d4c4f28-f49c-438d-88c3-be7a8b86388e"	, 
+	"VariableName":"HandlerNode25"	, 
+	"Name":"PlayerSystemUpdate"	, 
+	"Order":0	, 
+	"GraphId":"bb6b8620-a43b-476b-a115-c788fbdf919c"	, 
+	"Identifier":"07a1fe4b-7557-4fb5-afb9-9c34efde879c"	, 
+	"Expanded":false}

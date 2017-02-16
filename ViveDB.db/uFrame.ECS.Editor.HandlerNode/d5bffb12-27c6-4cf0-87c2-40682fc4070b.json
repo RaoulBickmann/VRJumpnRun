@@ -1,0 +1,11 @@
+{
+	"CodeHandler":false	, 
+	"Custom":false	, 
+	"MetaType":"uFrame.ECS.UnityUtilities.OnCollisionEnterDispatcher"	, 
+	"VariableCount":0	, 
+	"VariableName":"HandlerNode21"	, 
+	"Name":"InputSystemOnCollisionEnter"	, 
+	"Order":0	, 
+	"GraphId":"bb6b8620-a43b-476b-a115-c788fbdf919c"	, 
+	"Identifier":"d5bffb12-27c6-4cf0-87c2-40682fc4070b"	, 
+	"Expanded":false}

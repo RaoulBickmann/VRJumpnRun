@@ -1,8 +1,0 @@
-{
-	"Identifier":"fa272955-d527-4493-9a75-e02bf9c05256"	, 
-	"Time":"2/15/2017 2:05:23 PM"	, 
-	"Group":14523	, 
-	"DataRecordId":"028d2735-9f6f-4ea5-9907-b319f785f10c"	, 
-	"Type":0	, 
-	"RecordType":"uFrame.ECS.Editor.Vector2Node, Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"	, 
-	"Data":"{\r\n\t\"X\":0\t, \r\n\t\"Y\":0\t, \r\n\t\"VariableName\":\"Vector2Node17\"\t, \r\n\t\"Order\":0\t, \r\n\t\"GraphId\":\"bb6b8620-a43b-476b-a115-c788fbdf919c\"\t, \r\n\t\"Identifier\":\"028d2735-9f6f-4ea5-9907-b319f785f10c\"\t, \r\n\t\"Expanded\":false}\r\n"}
