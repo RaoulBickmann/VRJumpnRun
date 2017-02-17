@@ -1,0 +1,11 @@
+{
+	"CodeHandler":false	, 
+	"Custom":false	, 
+	"MetaType":"uFrame.ECS.UnityUtilities.OnTriggerStayDispatcher"	, 
+	"VariableCount":0	, 
+	"VariableName":"HandlerNode35"	, 
+	"Name":"InputSystemOnTriggerStay"	, 
+	"Order":0	, 
+	"GraphId":"bb6b8620-a43b-476b-a115-c788fbdf919c"	, 
+	"Identifier":"de68535e-a3d4-4dd9-8e83-6ee723ad74db"	, 
+	"Expanded":false}

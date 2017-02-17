@@ -22,7 +22,7 @@ namespace ViveDB {
     using ViveDB;
     
     
-    public partial class PlayerSystemBase : uFrame.ECS.Systems.EcsSystem, uFrame.ECS.APIs.ISystemUpdate {
+    public partial class RigMoveSystemBase : uFrame.ECS.Systems.EcsSystem {
         
         private IEcsComponentManagerOf<WandManager> _WandManagerManager;
         
@@ -35,8 +35,6 @@ namespace ViveDB {
         private IEcsComponentManagerOf<WandLeft> _WandLeftManager;
         
         private IEcsComponentManagerOf<Rig> _RigManager;
-        
-        private PlayerSystemUpdateHandler PlayerSystemUpdateHandlerInstance = new PlayerSystemUpdateHandler();
         
         public IEcsComponentManagerOf<WandManager> WandManagerManager {
             get {
@@ -100,74 +98,35 @@ namespace ViveDB {
             WandRightManager = ComponentSystem.RegisterComponent<WandRight>(1);
             WandLeftManager = ComponentSystem.RegisterComponent<WandLeft>(3);
             RigManager = ComponentSystem.RegisterComponent<Rig>(9);
-            this.OnEvent<ViveDB.JumpEvent>().Subscribe(_=>{ PlayerSystemJumpEventFilter(_); }).DisposeWith(this);
-            this.OnEvent<ViveDB.PlayerMoveEvent>().Subscribe(_=>{ PlayerSystemPlayerMoveEventFilter(_); }).DisposeWith(this);
+            this.OnEvent<ViveDB.RigMoveEvent>().Subscribe(_=>{ RigMoveSystemRigMoveEventFilter(_); }).DisposeWith(this);
         }
         
-        protected virtual void PlayerSystemUpdateHandler(Player group) {
-            var handler = PlayerSystemUpdateHandlerInstance;
-            handler.System = this;
-            handler.Group = group;
-            StartCoroutine(handler.Execute());
+        protected virtual void RigMoveSystemRigMoveEventHandler(ViveDB.RigMoveEvent data, Rig group) {
         }
         
-        protected void PlayerSystemUpdateFilter() {
-            var PlayerItems = PlayerManager.Components;
-            for (var PlayerIndex = 0
-            ; PlayerIndex < PlayerItems.Count; PlayerIndex++
+        protected void RigMoveSystemRigMoveEventFilter(ViveDB.RigMoveEvent data) {
+            var RigItems = RigManager.Components;
+            for (var RigIndex = 0
+            ; RigIndex < RigItems.Count; RigIndex++
             ) {
-                if (!PlayerItems[PlayerIndex].Enabled) {
+                if (!RigItems[RigIndex].Enabled) {
                     continue;
                 }
-                this.PlayerSystemUpdateHandler(PlayerItems[PlayerIndex]);
-            }
-        }
-        
-        public virtual void SystemUpdate() {
-            PlayerSystemUpdateFilter();
-        }
-        
-        protected virtual void PlayerSystemJumpEventHandler(ViveDB.JumpEvent data, Player group) {
-        }
-        
-        protected void PlayerSystemJumpEventFilter(ViveDB.JumpEvent data) {
-            var PlayerItems = PlayerManager.Components;
-            for (var PlayerIndex = 0
-            ; PlayerIndex < PlayerItems.Count; PlayerIndex++
-            ) {
-                if (!PlayerItems[PlayerIndex].Enabled) {
-                    continue;
-                }
-                this.PlayerSystemJumpEventHandler(data, PlayerItems[PlayerIndex]);
-            }
-        }
-        
-        protected virtual void PlayerSystemPlayerMoveEventHandler(ViveDB.PlayerMoveEvent data, Player group) {
-        }
-        
-        protected void PlayerSystemPlayerMoveEventFilter(ViveDB.PlayerMoveEvent data) {
-            var PlayerItems = PlayerManager.Components;
-            for (var PlayerIndex = 0
-            ; PlayerIndex < PlayerItems.Count; PlayerIndex++
-            ) {
-                if (!PlayerItems[PlayerIndex].Enabled) {
-                    continue;
-                }
-                this.PlayerSystemPlayerMoveEventHandler(data, PlayerItems[PlayerIndex]);
+                this.RigMoveSystemRigMoveEventHandler(data, RigItems[RigIndex]);
             }
         }
     }
     
-    [uFrame.Attributes.uFrameIdentifier("d549aa45-7425-4a1b-af59-82c8d6e66a22")]
-    public partial class PlayerSystem : PlayerSystemBase {
+    [uFrame.Attributes.uFrameIdentifier("34f3c15a-b548-4ee1-8a0d-2595341c0c9a")]
+    public partial class RigMoveSystem : RigMoveSystemBase {
         
-        private static PlayerSystem _Instance;
+        private static RigMoveSystem _Instance;
         
-        public PlayerSystem() {
+        public RigMoveSystem() {
             Instance = this;
         }
         
-        public static PlayerSystem Instance {
+        public static RigMoveSystem Instance {
             get {
                 return _Instance;
             }

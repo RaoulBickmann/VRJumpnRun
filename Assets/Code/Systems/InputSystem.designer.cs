@@ -28,11 +28,13 @@ namespace ViveDB {
         
         private IEcsComponentManagerOf<Player> _PlayerManager;
         
-        private IEcsComponentManagerOf<WandRight> _WandRightManager;
-        
         private IEcsComponentManagerOf<Grabable> _GrabableManager;
         
+        private IEcsComponentManagerOf<WandRight> _WandRightManager;
+        
         private IEcsComponentManagerOf<WandLeft> _WandLeftManager;
+        
+        private IEcsComponentManagerOf<Rig> _RigManager;
         
         public IEcsComponentManagerOf<WandManager> WandManagerManager {
             get {
@@ -52,21 +54,21 @@ namespace ViveDB {
             }
         }
         
-        public IEcsComponentManagerOf<WandRight> WandRightManager {
-            get {
-                return _WandRightManager;
-            }
-            set {
-                _WandRightManager = value;
-            }
-        }
-        
         public IEcsComponentManagerOf<Grabable> GrabableManager {
             get {
                 return _GrabableManager;
             }
             set {
                 _GrabableManager = value;
+            }
+        }
+        
+        public IEcsComponentManagerOf<WandRight> WandRightManager {
+            get {
+                return _WandRightManager;
+            }
+            set {
+                _WandRightManager = value;
             }
         }
         
@@ -79,20 +81,30 @@ namespace ViveDB {
             }
         }
         
+        public IEcsComponentManagerOf<Rig> RigManager {
+            get {
+                return _RigManager;
+            }
+            set {
+                _RigManager = value;
+            }
+        }
+        
         public override void Setup() {
             base.Setup();
             WandManagerManager = ComponentSystem.RegisterComponent<WandManager>(5);
             PlayerManager = ComponentSystem.RegisterComponent<Player>(6);
-            WandRightManager = ComponentSystem.RegisterComponent<WandRight>(1);
             GrabableManager = ComponentSystem.RegisterComponent<Grabable>(7);
+            WandRightManager = ComponentSystem.RegisterComponent<WandRight>(1);
             WandLeftManager = ComponentSystem.RegisterComponent<WandLeft>(3);
+            RigManager = ComponentSystem.RegisterComponent<Rig>(9);
             this.OnEvent<ViveDB.PlayerMoveEvent>().Subscribe(_=>{ InputSystemMoveEventFilter(_); }).DisposeWith(this);
             this.OnEvent<ViveDB.TeleportEvent>().Subscribe(_=>{ InputSystemTeleportEventFilter(_); }).DisposeWith(this);
             this.OnEvent<ViveDB.JumpEvent>().Subscribe(_=>{ InputSystemShootEventFilter(_); }).DisposeWith(this);
-            this.OnEvent<uFrame.ECS.UnityUtilities.OnCollisionEnterDispatcher>().Subscribe(_=>{ InputSystemOnCollisionEnterFilter(_); }).DisposeWith(this);
+            this.OnEvent<uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher>().Subscribe(_=>{ InputSystemOnTriggerEnterFilter(_); }).DisposeWith(this);
+            this.OnEvent<uFrame.ECS.UnityUtilities.OnTriggerStayDispatcher>().Subscribe(_=>{ InputSystemOnTriggerStayFilter(_); }).DisposeWith(this);
+            this.OnEvent<uFrame.ECS.UnityUtilities.OnTriggerExitDispatcher>().Subscribe(_=>{ InputSystemOnTriggerExitFilter(_); }).DisposeWith(this);
             this.OnEvent<uFrame.Kernel.KernelLoadedEvent>().Subscribe(_=>{ InputSystemKernelLoadedFilter(_); }).DisposeWith(this);
-            this.OnEvent<uFrame.ECS.UnityUtilities.OnCollisionExitDispatcher>().Subscribe(_=>{ InputSystemOnCollisionExitFilter(_); }).DisposeWith(this);
-            this.OnEvent<uFrame.ECS.UnityUtilities.OnCollisionStayDispatcher>().Subscribe(_=>{ InputSystemOnCollisionStayFilter(_); }).DisposeWith(this);
         }
         
         protected virtual void InputSystemMoveEventHandler(ViveDB.PlayerMoveEvent data, Player group) {
@@ -161,10 +173,10 @@ namespace ViveDB {
             }
         }
         
-        protected virtual void InputSystemOnCollisionEnterHandler(uFrame.ECS.UnityUtilities.OnCollisionEnterDispatcher data, Grabable collider, WandRight source) {
+        protected virtual void InputSystemOnTriggerEnterHandler(uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher data, Grabable collider, WandRight source) {
         }
         
-        protected void InputSystemOnCollisionEnterFilter(uFrame.ECS.UnityUtilities.OnCollisionEnterDispatcher data) {
+        protected void InputSystemOnTriggerEnterFilter(uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher data) {
             var ColliderGrabable = GrabableManager[data.ColliderId];
             if (ColliderGrabable == null) {
                 return;
@@ -179,7 +191,49 @@ namespace ViveDB {
             if (!SourceWandRight.Enabled) {
                 return;
             }
-            this.InputSystemOnCollisionEnterHandler(data, ColliderGrabable, SourceWandRight);
+            this.InputSystemOnTriggerEnterHandler(data, ColliderGrabable, SourceWandRight);
+        }
+        
+        protected virtual void InputSystemOnTriggerStayHandler(uFrame.ECS.UnityUtilities.OnTriggerStayDispatcher data, Grabable collider, WandRight source) {
+        }
+        
+        protected void InputSystemOnTriggerStayFilter(uFrame.ECS.UnityUtilities.OnTriggerStayDispatcher data) {
+            var ColliderGrabable = GrabableManager[data.ColliderId];
+            if (ColliderGrabable == null) {
+                return;
+            }
+            if (!ColliderGrabable.Enabled) {
+                return;
+            }
+            var SourceWandRight = WandRightManager[data.EntityId];
+            if (SourceWandRight == null) {
+                return;
+            }
+            if (!SourceWandRight.Enabled) {
+                return;
+            }
+            this.InputSystemOnTriggerStayHandler(data, ColliderGrabable, SourceWandRight);
+        }
+        
+        protected virtual void InputSystemOnTriggerExitHandler(uFrame.ECS.UnityUtilities.OnTriggerExitDispatcher data, Grabable collider, WandRight source) {
+        }
+        
+        protected void InputSystemOnTriggerExitFilter(uFrame.ECS.UnityUtilities.OnTriggerExitDispatcher data) {
+            var ColliderGrabable = GrabableManager[data.ColliderId];
+            if (ColliderGrabable == null) {
+                return;
+            }
+            if (!ColliderGrabable.Enabled) {
+                return;
+            }
+            var SourceWandRight = WandRightManager[data.EntityId];
+            if (SourceWandRight == null) {
+                return;
+            }
+            if (!SourceWandRight.Enabled) {
+                return;
+            }
+            this.InputSystemOnTriggerExitHandler(data, ColliderGrabable, SourceWandRight);
         }
         
         protected virtual void InputSystemUpdateLeftHandler(WandLeft group) {
@@ -225,48 +279,6 @@ namespace ViveDB {
                 }
                 this.InputSystemKernelLoadedHandler(data, WandManagerItems[WandManagerIndex]);
             }
-        }
-        
-        protected virtual void InputSystemOnCollisionExitHandler(uFrame.ECS.UnityUtilities.OnCollisionExitDispatcher data, Grabable collider, WandRight source) {
-        }
-        
-        protected void InputSystemOnCollisionExitFilter(uFrame.ECS.UnityUtilities.OnCollisionExitDispatcher data) {
-            var ColliderGrabable = GrabableManager[data.ColliderId];
-            if (ColliderGrabable == null) {
-                return;
-            }
-            if (!ColliderGrabable.Enabled) {
-                return;
-            }
-            var SourceWandRight = WandRightManager[data.EntityId];
-            if (SourceWandRight == null) {
-                return;
-            }
-            if (!SourceWandRight.Enabled) {
-                return;
-            }
-            this.InputSystemOnCollisionExitHandler(data, ColliderGrabable, SourceWandRight);
-        }
-        
-        protected virtual void InputSystemOnCollisionStayHandler(uFrame.ECS.UnityUtilities.OnCollisionStayDispatcher data, Grabable collider, WandRight source) {
-        }
-        
-        protected void InputSystemOnCollisionStayFilter(uFrame.ECS.UnityUtilities.OnCollisionStayDispatcher data) {
-            var ColliderGrabable = GrabableManager[data.ColliderId];
-            if (ColliderGrabable == null) {
-                return;
-            }
-            if (!ColliderGrabable.Enabled) {
-                return;
-            }
-            var SourceWandRight = WandRightManager[data.EntityId];
-            if (SourceWandRight == null) {
-                return;
-            }
-            if (!SourceWandRight.Enabled) {
-                return;
-            }
-            this.InputSystemOnCollisionStayHandler(data, ColliderGrabable, SourceWandRight);
         }
     }
     

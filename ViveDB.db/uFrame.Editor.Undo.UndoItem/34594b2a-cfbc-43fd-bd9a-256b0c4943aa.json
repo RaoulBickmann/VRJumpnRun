@@ -1,0 +1,8 @@
+{
+	"Identifier":"34594b2a-cfbc-43fd-bd9a-256b0c4943aa"	, 
+	"Time":"2/17/2017 11:35:44 AM"	, 
+	"Group":113544	, 
+	"DataRecordId":"e4ae0169-6118-412f-885b-ebc6a85aa1d7"	, 
+	"Type":0	, 
+	"RecordType":"uFrame.ECS.Editor.HandlerNode, Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"	, 
+	"Data":"{\r\n\t\"CodeHandler\":false\t, \r\n\t\"Custom\":false\t, \r\n\t\"MetaType\":\"7dae06ab-f0d4-4b9b-8e8b-890be90268ec\"\t, \r\n\t\"VariableCount\":0\t, \r\n\t\"VariableName\":\"HandlerNode36\"\t, \r\n\t\"Name\":\"RigMoveSystemRigMoveEvent\"\t, \r\n\t\"Order\":0\t, \r\n\t\"GraphId\":\"bb6b8620-a43b-476b-a115-c788fbdf919c\"\t, \r\n\t\"Identifier\":\"e4ae0169-6118-412f-885b-ebc6a85aa1d7\"\t, \r\n\t\"Expanded\":false}\r\n"}

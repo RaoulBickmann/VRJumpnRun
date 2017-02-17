@@ -23,6 +23,13 @@ static
         
         #region 
 static
+        public uFrame.ECS.APIs.IEcsComponentManagerOf<Rig> RigManager(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<Rig>();
+        }
+        #endregion
+        
+        #region 
+static
         public uFrame.ECS.APIs.IEcsComponentManagerOf<WandManager> WandManagerManager(this uFrame.ECS.APIs.IEcsSystem system) {
             return system.ComponentSystem.RegisterComponent<WandManager>();
         }
@@ -53,6 +60,13 @@ static
 static
         public uFrame.ECS.APIs.IEcsComponentManagerOf<WandLeft> WandLeftManager(this uFrame.ECS.APIs.IEcsSystem system) {
             return system.ComponentSystem.RegisterComponent<WandLeft>();
+        }
+        #endregion
+        
+        #region 
+static
+        public List<Rig> RigComponents(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<Rig>().Components;
         }
         #endregion
         

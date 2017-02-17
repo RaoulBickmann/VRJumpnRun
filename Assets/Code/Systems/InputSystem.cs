@@ -91,39 +91,52 @@ namespace ViveDB {
             if (rightController.GetTouch(touchPad))
             {
                 var moveEvent = new RigMoveEvent();
-                moveEvent.movement = leftController.GetAxis(touchPad) * Time.deltaTime;
+                moveEvent.movement = rightController.GetAxis(touchPad) * Time.deltaTime;
                 Publish(moveEvent);
             }
-            if (rightController.GetPress(triggerButton))
-            {
-                
-            }
-        }
-
-
-        protected override void InputSystemOnCollisionStayHandler(OnCollisionStayDispatcher data, Grabable collider, WandRight source)
-        {
-            base.InputSystemOnCollisionStayHandler(data, collider, source);
-            if (rightController.GetPress(triggerButton) && grabbedGameObject.transform.parent != source.gameObject)
-            {
-                grabbedGameObject.transform.SetParent(source.transform, true);
-            } else if(!rightController.GetPress(triggerButton) && grabbedGameObject.transform.parent == source.gameObject)
+            if (!rightController.GetPress(triggerButton) && grabbedGameObject != null)
             {
                 grabbedGameObject.transform.SetParent(null);
             }
         }
 
-        protected override void InputSystemOnCollisionEnterHandler(OnCollisionEnterDispatcher data, Grabable collider, WandRight source)
+        protected override void InputSystemOnTriggerEnterHandler(OnTriggerEnterDispatcher data, Grabable collider, WandRight source)
         {
-            base.InputSystemOnCollisionEnterHandler(data, collider, source);
-            grabbedGameObject = collider.gameObject;
-            grabbedGameObject.GetComponent<MeshRenderer>().material.color = Color.red; 
+            base.InputSystemOnTriggerEnterHandler(data, collider, source);
+            Debug.Log("Enter");
+            Debug.Log(collider + "" + source);
+
         }
 
-        protected override void InputSystemOnCollisionExitHandler(OnCollisionExitDispatcher data, Grabable collider, WandRight source)
+        protected override void InputSystemOnTriggerStayHandler(OnTriggerStayDispatcher data, Grabable collider, WandRight source)
         {
-            base.InputSystemOnCollisionExitHandler(data, collider, source);
-            grabbedGameObject.GetComponent<MeshRenderer>().material.color = Color.green;
+            base.InputSystemOnTriggerStayHandler(data, collider, source);
+            if (grabbedGameObject == null)
+            {
+                grabbedGameObject = collider.gameObject;
+                grabbedGameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+            }
+            if (rightController.GetPress(triggerButton) && grabbedGameObject.transform.parent != source.gameObject.transform)
+            {
+                grabbedGameObject.transform.SetParent(source.transform, true);
+            }
+        }
+
+
+        protected override void InputSystemOnTriggerExitHandler(OnTriggerExitDispatcher data, Grabable collider, WandRight source)
+        {
+            base.InputSystemOnTriggerExitHandler(data, collider, source);
+            Debug.Log("Exit");
+            if(grabbedGameObject != null)
+            {
+                if(grabbedGameObject.transform.parent != source.gameObject.transform)
+                {
+                    grabbedGameObject.GetComponent<MeshRenderer>().material.color = Color.green;
+                    grabbedGameObject = null;
+                }
+
+            }
+
         }
 
         //protected override void InputSystemUpdateHandler(WandManager group) {

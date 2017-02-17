@@ -14,18 +14,15 @@ namespace ViveDB {
     using System.Collections.Generic;
     using System.Linq;
     using uFrame.ECS;
-    using uFrame.ECS.Systems;
     using uFrame.ECS.UnityUtilities;
     using uFrame.Kernel;
     
     
-    public partial class ViveDBLoader : uFrame.Kernel.SystemLoader {
+    [uFrame.Attributes.uFrameIdentifier("34f3c15a-b548-4ee1-8a0d-2595341c0c9a")]
+    public partial class RigMoveSystemLoader : uFrame.Kernel.SystemLoader {
         
         public override void Load() {
-            EcsSystem system = null;
-            system = this.AddSystem<RigMoveSystem>();
-            system = this.AddSystem<InputSystem>();
-            system = this.AddSystem<PlayerSystem>();
+            this.AddSystem<RigMoveSystem>();
         }
     }
 }
