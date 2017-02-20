@@ -18,8 +18,7 @@ namespace ViveDB {
         {
             base.PlayerSystemPlayerMoveEventHandler(data, group);
             group.transform.Translate(new Vector3(data.movement.x, 0, data.movement.y), Space.Self);
-            group.transform.rotation = new Quaternion(0, Camera.main.transform.rotation.y, 0, 0); 
-            //Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0));
+            group.transform.rotation = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0);
             //vllt lieber ins update
             group.transform.Translate(new Vector3(data.movement.x, 0, data.movement.y), Space.Self);
         }
