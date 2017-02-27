@@ -1,0 +1,8 @@
+{
+	"Identifier":"6dd16071-a09d-42e5-aac9-33b23399c7d6"	, 
+	"Time":"2/27/2017 6:35:21 PM"	, 
+	"Group":183521	, 
+	"DataRecordId":"8087a80f-0c15-4db0-b9b2-641c8525ba02"	, 
+	"Type":0	, 
+	"RecordType":"uFrame.ECS.Editor.HandlerNode, Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"	, 
+	"Data":"{\r\n\t\"CodeHandler\":false\t, \r\n\t\"Custom\":false\t, \r\n\t\"MetaType\":\"uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher\"\t, \r\n\t\"VariableCount\":0\t, \r\n\t\"VariableName\":\"HandlerNode42\"\t, \r\n\t\"Name\":\"PlayerSystemOnTriggerEnter\"\t, \r\n\t\"Order\":0\t, \r\n\t\"GraphId\":\"bb6b8620-a43b-476b-a115-c788fbdf919c\"\t, \r\n\t\"Identifier\":\"8087a80f-0c15-4db0-b9b2-641c8525ba02\"\t, \r\n\t\"Expanded\":false}\r\n"}

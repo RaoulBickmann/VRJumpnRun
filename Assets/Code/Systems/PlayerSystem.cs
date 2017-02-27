@@ -1,3 +1,5 @@
+using uFrame.ECS.UnityUtilities;
+
 namespace ViveDB {
     using System;
     using System.Collections;
@@ -15,6 +17,7 @@ namespace ViveDB {
     public partial class PlayerSystem {
 
         private int jumpCount;
+        private Vector3 lastCheckPoint;
 
         protected override void Start()
         {
@@ -45,6 +48,24 @@ namespace ViveDB {
                 group.GetComponent<Rigidbody>().velocity = new Vector3();
                 group.GetComponent<Rigidbody>().AddForce(new Vector3(0, 200, 0));
             }
+        }
+
+        protected override void PlayerSystemOnCollisionEnterHandler(OnCollisionEnterDispatcher data, Bullet collider, Player source)
+        {
+            base.PlayerSystemOnCollisionEnterHandler(data, collider, source);
+            Publish(new DeathEvent());
+        }
+
+        protected override void PlayerSystemOnTriggerEnterHandler(OnTriggerEnterDispatcher data, Checkpoint collider, Player source)
+        {
+            base.PlayerSystemOnTriggerEnterHandler(data, collider, source);
+            lastCheckPoint = collider.transform.position;
+        }
+
+        protected override void PlayerSystemDeathEventHandler(DeathEvent data, Player @group)
+        {
+            base.PlayerSystemDeathEventHandler(data, @group);
+            group.transform.position = lastCheckPoint;
         }
     }
 }

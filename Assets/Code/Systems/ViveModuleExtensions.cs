@@ -23,6 +23,13 @@ static
         
         #region 
 static
+        public uFrame.ECS.APIs.IEcsComponentManagerOf<Bullet> BulletManager(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<Bullet>();
+        }
+        #endregion
+        
+        #region 
+static
         public uFrame.ECS.APIs.IEcsComponentManagerOf<Rig> RigManager(this uFrame.ECS.APIs.IEcsSystem system) {
             return system.ComponentSystem.RegisterComponent<Rig>();
         }
@@ -37,8 +44,22 @@ static
         
         #region 
 static
+        public uFrame.ECS.APIs.IEcsComponentManagerOf<Turret> TurretManager(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<Turret>();
+        }
+        #endregion
+        
+        #region 
+static
         public uFrame.ECS.APIs.IEcsComponentManagerOf<Player> PlayerManager(this uFrame.ECS.APIs.IEcsSystem system) {
             return system.ComponentSystem.RegisterComponent<Player>();
+        }
+        #endregion
+        
+        #region 
+static
+        public uFrame.ECS.APIs.IEcsComponentManagerOf<Checkpoint> CheckpointManager(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<Checkpoint>();
         }
         #endregion
         
@@ -65,6 +86,13 @@ static
         
         #region 
 static
+        public List<Bullet> BulletComponents(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<Bullet>().Components;
+        }
+        #endregion
+        
+        #region 
+static
         public List<Rig> RigComponents(this uFrame.ECS.APIs.IEcsSystem system) {
             return system.ComponentSystem.RegisterComponent<Rig>().Components;
         }
@@ -79,8 +107,22 @@ static
         
         #region 
 static
+        public List<Turret> TurretComponents(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<Turret>().Components;
+        }
+        #endregion
+        
+        #region 
+static
         public List<Player> PlayerComponents(this uFrame.ECS.APIs.IEcsSystem system) {
             return system.ComponentSystem.RegisterComponent<Player>().Components;
+        }
+        #endregion
+        
+        #region 
+static
+        public List<Checkpoint> CheckpointComponents(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<Checkpoint>().Components;
         }
         #endregion
         

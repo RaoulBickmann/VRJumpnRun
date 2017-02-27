@@ -1,0 +1,11 @@
+{
+	"CodeHandler":false	, 
+	"Custom":false	, 
+	"MetaType":"uFrame.ECS.APIs.ISystemFixedUpdate"	, 
+	"VariableCount":0	, 
+	"VariableName":"HandlerNode37"	, 
+	"Name":"TurretSystemFixedUpdate"	, 
+	"Order":0	, 
+	"GraphId":"bb6b8620-a43b-476b-a115-c788fbdf919c"	, 
+	"Identifier":"669840ac-3d61-40ec-a908-5e176ebf2722"	, 
+	"Expanded":false}
