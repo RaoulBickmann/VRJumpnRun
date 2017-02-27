@@ -75,7 +75,7 @@ namespace ViveDB {
             base.InputSystemUpdateLeftHandler(group);
             if (leftController.GetTouch(touchPad))
             {
-                var moveEvent = new PlayerMoveEvent();
+                var moveEvent = new RigMoveEvent();
                 moveEvent.movement = leftController.GetAxis(touchPad) * Time.deltaTime;
                 Publish(moveEvent);
             }
@@ -90,7 +90,7 @@ namespace ViveDB {
             base.InputSystemUpdateRightHandler(group);
             if (rightController.GetTouch(touchPad))
             {
-                var moveEvent = new RigMoveEvent();
+                var moveEvent = new PlayerMoveEvent();
                 moveEvent.movement = rightController.GetAxis(touchPad) * Time.deltaTime;
                 Publish(moveEvent);
             }
