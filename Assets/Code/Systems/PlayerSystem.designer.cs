@@ -44,6 +44,8 @@ namespace ViveDB {
         
         private IEcsComponentManagerOf<Rig> _RigManager;
         
+        private IEcsComponentManagerOf<Feet> _FeetManager;
+        
         private PlayerSystemUpdateHandler PlayerSystemUpdateHandlerInstance = new PlayerSystemUpdateHandler();
         
         public IEcsComponentManagerOf<WandManager> WandManagerManager {
@@ -136,6 +138,15 @@ namespace ViveDB {
             }
         }
         
+        public IEcsComponentManagerOf<Feet> FeetManager {
+            get {
+                return _FeetManager;
+            }
+            set {
+                _FeetManager = value;
+            }
+        }
+        
         public override void Setup() {
             base.Setup();
             WandManagerManager = ComponentSystem.RegisterComponent<WandManager>(5);
@@ -148,11 +159,13 @@ namespace ViveDB {
             BulletManager = ComponentSystem.RegisterComponent<Bullet>(11);
             WandLeftManager = ComponentSystem.RegisterComponent<WandLeft>(3);
             RigManager = ComponentSystem.RegisterComponent<Rig>(9);
+            FeetManager = ComponentSystem.RegisterComponent<Feet>(14);
             this.OnEvent<ViveDB.JumpEvent>().Subscribe(_=>{ PlayerSystemJumpEventFilter(_); }).DisposeWith(this);
             this.OnEvent<ViveDB.PlayerMoveEvent>().Subscribe(_=>{ PlayerSystemPlayerMoveEventFilter(_); }).DisposeWith(this);
             this.OnEvent<uFrame.ECS.UnityUtilities.OnCollisionEnterDispatcher>().Subscribe(_=>{ PlayerSystemOnCollisionEnterFilter(_); }).DisposeWith(this);
             this.OnEvent<uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher>().Subscribe(_=>{ PlayerSystemOnTriggerEnterFilter(_); }).DisposeWith(this);
             this.OnEvent<ViveDB.DeathEvent>().Subscribe(_=>{ PlayerSystemDeathEventFilter(_); }).DisposeWith(this);
+            this.OnEvent<uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher>().Subscribe(_=>{ PlayerSystemFeetOnTriggerEnterFilter(_); }).DisposeWith(this);
         }
         
         protected virtual void PlayerSystemUpdateHandler(Player group) {
@@ -263,6 +276,20 @@ namespace ViveDB {
                 }
                 this.PlayerSystemDeathEventHandler(data, PlayerItems[PlayerIndex]);
             }
+        }
+        
+        protected virtual void PlayerSystemFeetOnTriggerEnterHandler(uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher data, Feet source) {
+        }
+        
+        protected void PlayerSystemFeetOnTriggerEnterFilter(uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher data) {
+            var SourceFeet = FeetManager[data.EntityId];
+            if (SourceFeet == null) {
+                return;
+            }
+            if (!SourceFeet.Enabled) {
+                return;
+            }
+            this.PlayerSystemFeetOnTriggerEnterHandler(data, SourceFeet);
         }
     }
     

@@ -1,0 +1,11 @@
+{
+	"CodeHandler":false	, 
+	"Custom":false	, 
+	"MetaType":"uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher"	, 
+	"VariableCount":0	, 
+	"VariableName":"HandlerNode45"	, 
+	"Name":"PlayerSystemFeetOnTriggerEnter"	, 
+	"Order":0	, 
+	"GraphId":"bb6b8620-a43b-476b-a115-c788fbdf919c"	, 
+	"Identifier":"78fa9230-8e7e-43af-b6ae-9404f82ea951"	, 
+	"Expanded":false}

@@ -44,6 +44,8 @@ namespace ViveDB {
         
         private IEcsComponentManagerOf<Rig> _RigManager;
         
+        private IEcsComponentManagerOf<Feet> _FeetManager;
+        
         public IEcsComponentManagerOf<WandManager> WandManagerManager {
             get {
                 return _WandManagerManager;
@@ -134,6 +136,15 @@ namespace ViveDB {
             }
         }
         
+        public IEcsComponentManagerOf<Feet> FeetManager {
+            get {
+                return _FeetManager;
+            }
+            set {
+                _FeetManager = value;
+            }
+        }
+        
         public override void Setup() {
             base.Setup();
             WandManagerManager = ComponentSystem.RegisterComponent<WandManager>(5);
@@ -146,6 +157,7 @@ namespace ViveDB {
             BulletManager = ComponentSystem.RegisterComponent<Bullet>(11);
             WandLeftManager = ComponentSystem.RegisterComponent<WandLeft>(3);
             RigManager = ComponentSystem.RegisterComponent<Rig>(9);
+            FeetManager = ComponentSystem.RegisterComponent<Feet>(14);
         }
         
         protected virtual void TurretSystemFixedUpdateHandler(Turret group) {

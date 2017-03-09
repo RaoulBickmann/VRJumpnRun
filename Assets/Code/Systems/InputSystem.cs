@@ -63,16 +63,16 @@ namespace ViveDB {
 			rightController = SteamVR_Controller.Input ((int)group.Right.GetComponent<SteamVR_TrackedObject>().index);
             Menu = GameObject.FindGameObjectWithTag("Menu");
 
-			//// Initialize our LineRenderer
-			//lineRenderer = gameObject.AddComponent<LineRenderer>();
-			//lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-			//lineRenderer.SetWidth(0.01f, 0.01f);
-			//lineRenderer.SetVertexCount(2);
+            //// Initialize our LineRenderer
+            //lineRenderer = gameObject.AddComponent<LineRenderer>();
+            //lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
+            //lineRenderer.SetWidth(0.01f, 0.01f);
+            //lineRenderer.SetVertexCount(2);
 
-			//// Initialize our vertex array. This will just contain
-			//// two Vector3's which represent the start and end locations
-			//// of our LineRenderer
-			//lineRendererVertices = new Vector3[2];
+            //// Initialize our vertex array. This will just contain
+            //// two Vector3's which represent the start and end locations
+            //// of our LineRenderer
+            //lineRendererVertices = new Vector3[2];
         }
 
         protected override void InputSystemUpdateLeftHandler(WandLeft group)

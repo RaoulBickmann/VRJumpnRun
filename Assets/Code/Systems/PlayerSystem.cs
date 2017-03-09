@@ -18,6 +18,7 @@ namespace ViveDB {
 
         private int jumpCount;
         private Vector3 lastCheckPoint;
+        private bool grounded;
 
         protected override void Start()
         {
@@ -36,17 +37,12 @@ namespace ViveDB {
         protected override void PlayerSystemJumpEventHandler(JumpEvent data, Player @group)
         {
             base.PlayerSystemJumpEventHandler(data, @group);
-            float temp = group.GetComponent<Collider>().bounds.extents.y + 0.01f;
 
-            if (jumpCount < 2) {
+            if (grounded || jumpCount < 2) {
                 jumpCount++;
+                grounded = false;
                 group.GetComponent<Rigidbody>().velocity = new Vector3();
-                group.GetComponent<Rigidbody>().AddForce(new Vector3(0,100,0));
-            } else if (Physics.Raycast(group.transform.position, -Vector3.up, temp))
-            {
-                jumpCount = 1;
-                group.GetComponent<Rigidbody>().velocity = new Vector3();
-                group.GetComponent<Rigidbody>().AddForce(new Vector3(0, 200, 0));
+                group.GetComponent<Rigidbody>().AddForce(new Vector3(0,200,0));
             }
         }
 
@@ -66,6 +62,12 @@ namespace ViveDB {
         {
             base.PlayerSystemDeathEventHandler(data, @group);
             group.transform.position = lastCheckPoint;
+        }
+
+        protected override void PlayerSystemFeetOnTriggerEnterHandler(OnTriggerEnterDispatcher data, Feet source)
+        {
+            base.PlayerSystemFeetOnTriggerEnterHandler(data, source);
+            grounded = true;
         }
     }
 }

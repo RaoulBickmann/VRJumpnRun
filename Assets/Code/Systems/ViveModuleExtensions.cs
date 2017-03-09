@@ -93,6 +93,13 @@ static
         
         #region 
 static
+        public uFrame.ECS.APIs.IEcsComponentManagerOf<Feet> FeetManager(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<Feet>();
+        }
+        #endregion
+        
+        #region 
+static
         public List<Bullet> BulletComponents(this uFrame.ECS.APIs.IEcsSystem system) {
             return system.ComponentSystem.RegisterComponent<Bullet>().Components;
         }
@@ -158,6 +165,13 @@ static
 static
         public List<WandLeft> WandLeftComponents(this uFrame.ECS.APIs.IEcsSystem system) {
             return system.ComponentSystem.RegisterComponent<WandLeft>().Components;
+        }
+        #endregion
+        
+        #region 
+static
+        public List<Feet> FeetComponents(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<Feet>().Components;
         }
         #endregion
     }
