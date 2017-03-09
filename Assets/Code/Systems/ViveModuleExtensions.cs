@@ -58,6 +58,13 @@ static
         
         #region 
 static
+        public uFrame.ECS.APIs.IEcsComponentManagerOf<Feet> FeetManager(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<Feet>();
+        }
+        #endregion
+        
+        #region 
+static
         public uFrame.ECS.APIs.IEcsComponentManagerOf<Menu> MenuManager(this uFrame.ECS.APIs.IEcsSystem system) {
             return system.ComponentSystem.RegisterComponent<Menu>();
         }
@@ -88,13 +95,6 @@ static
 static
         public uFrame.ECS.APIs.IEcsComponentManagerOf<WandLeft> WandLeftManager(this uFrame.ECS.APIs.IEcsSystem system) {
             return system.ComponentSystem.RegisterComponent<WandLeft>();
-        }
-        #endregion
-        
-        #region 
-static
-        public uFrame.ECS.APIs.IEcsComponentManagerOf<Feet> FeetManager(this uFrame.ECS.APIs.IEcsSystem system) {
-            return system.ComponentSystem.RegisterComponent<Feet>();
         }
         #endregion
         
@@ -135,6 +135,13 @@ static
         
         #region 
 static
+        public List<Feet> FeetComponents(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<Feet>().Components;
+        }
+        #endregion
+        
+        #region 
+static
         public List<Menu> MenuComponents(this uFrame.ECS.APIs.IEcsSystem system) {
             return system.ComponentSystem.RegisterComponent<Menu>().Components;
         }
@@ -165,13 +172,6 @@ static
 static
         public List<WandLeft> WandLeftComponents(this uFrame.ECS.APIs.IEcsSystem system) {
             return system.ComponentSystem.RegisterComponent<WandLeft>().Components;
-        }
-        #endregion
-        
-        #region 
-static
-        public List<Feet> FeetComponents(this uFrame.ECS.APIs.IEcsSystem system) {
-            return system.ComponentSystem.RegisterComponent<Feet>().Components;
         }
         #endregion
     }

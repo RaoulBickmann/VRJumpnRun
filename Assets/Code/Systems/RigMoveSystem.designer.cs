@@ -34,6 +34,8 @@ namespace ViveDB {
         
         private IEcsComponentManagerOf<Turret> _TurretManager;
         
+        private IEcsComponentManagerOf<Feet> _FeetManager;
+        
         private IEcsComponentManagerOf<Checkpoint> _CheckpointManager;
         
         private IEcsComponentManagerOf<Menu> _MenuManager;
@@ -43,8 +45,6 @@ namespace ViveDB {
         private IEcsComponentManagerOf<WandLeft> _WandLeftManager;
         
         private IEcsComponentManagerOf<Rig> _RigManager;
-        
-        private IEcsComponentManagerOf<Feet> _FeetManager;
         
         public IEcsComponentManagerOf<WandManager> WandManagerManager {
             get {
@@ -88,6 +88,15 @@ namespace ViveDB {
             }
             set {
                 _TurretManager = value;
+            }
+        }
+        
+        public IEcsComponentManagerOf<Feet> FeetManager {
+            get {
+                return _FeetManager;
+            }
+            set {
+                _FeetManager = value;
             }
         }
         
@@ -136,15 +145,6 @@ namespace ViveDB {
             }
         }
         
-        public IEcsComponentManagerOf<Feet> FeetManager {
-            get {
-                return _FeetManager;
-            }
-            set {
-                _FeetManager = value;
-            }
-        }
-        
         public override void Setup() {
             base.Setup();
             WandManagerManager = ComponentSystem.RegisterComponent<WandManager>(5);
@@ -152,12 +152,12 @@ namespace ViveDB {
             GrabableManager = ComponentSystem.RegisterComponent<Grabable>(7);
             WandRightManager = ComponentSystem.RegisterComponent<WandRight>(1);
             TurretManager = ComponentSystem.RegisterComponent<Turret>(10);
+            FeetManager = ComponentSystem.RegisterComponent<Feet>(14);
             CheckpointManager = ComponentSystem.RegisterComponent<Checkpoint>(12);
             MenuManager = ComponentSystem.RegisterComponent<Menu>(13);
             BulletManager = ComponentSystem.RegisterComponent<Bullet>(11);
             WandLeftManager = ComponentSystem.RegisterComponent<WandLeft>(3);
             RigManager = ComponentSystem.RegisterComponent<Rig>(9);
-            FeetManager = ComponentSystem.RegisterComponent<Feet>(14);
             this.OnEvent<ViveDB.RigMoveEvent>().Subscribe(_=>{ RigMoveSystemRigMoveEventFilter(_); }).DisposeWith(this);
         }
         

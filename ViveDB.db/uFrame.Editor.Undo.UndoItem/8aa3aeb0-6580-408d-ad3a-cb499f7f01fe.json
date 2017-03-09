@@ -1,8 +1,0 @@
-{
-	"Identifier":"8aa3aeb0-6580-408d-ad3a-cb499f7f01fe"	, 
-	"Time":"3/9/2017 5:13:08 PM"	, 
-	"Group":17138	, 
-	"DataRecordId":"78fa9230-8e7e-43af-b6ae-9404f82ea951"	, 
-	"Type":2	, 
-	"RecordType":"uFrame.ECS.Editor.HandlerNode, Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"	, 
-	"Data":"{\r\n\t\"CodeHandler\":false\t, \r\n\t\"Custom\":false\t, \r\n\t\"MetaType\":\"uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher\"\t, \r\n\t\"VariableCount\":0\t, \r\n\t\"VariableName\":\"HandlerNode45\"\t, \r\n\t\"Name\":\"PlayerSystemOnTriggerEnter\"\t, \r\n\t\"Order\":0\t, \r\n\t\"GraphId\":\"bb6b8620-a43b-476b-a115-c788fbdf919c\"\t, \r\n\t\"Identifier\":\"78fa9230-8e7e-43af-b6ae-9404f82ea951\"\t, \r\n\t\"Expanded\":false}\r\n"}

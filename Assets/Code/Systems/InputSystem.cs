@@ -62,6 +62,7 @@ namespace ViveDB {
             leftController = SteamVR_Controller.Input ((int)group.Left.GetComponent<SteamVR_TrackedObject>().index);
 			rightController = SteamVR_Controller.Input ((int)group.Right.GetComponent<SteamVR_TrackedObject>().index);
             Menu = GameObject.FindGameObjectWithTag("Menu");
+            Publish(new MenuEvent());
 
             //// Initialize our LineRenderer
             //lineRenderer = gameObject.AddComponent<LineRenderer>();

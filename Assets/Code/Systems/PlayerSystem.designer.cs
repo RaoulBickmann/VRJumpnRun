@@ -34,6 +34,8 @@ namespace ViveDB {
         
         private IEcsComponentManagerOf<Turret> _TurretManager;
         
+        private IEcsComponentManagerOf<Feet> _FeetManager;
+        
         private IEcsComponentManagerOf<Checkpoint> _CheckpointManager;
         
         private IEcsComponentManagerOf<Menu> _MenuManager;
@@ -43,8 +45,6 @@ namespace ViveDB {
         private IEcsComponentManagerOf<WandLeft> _WandLeftManager;
         
         private IEcsComponentManagerOf<Rig> _RigManager;
-        
-        private IEcsComponentManagerOf<Feet> _FeetManager;
         
         private PlayerSystemUpdateHandler PlayerSystemUpdateHandlerInstance = new PlayerSystemUpdateHandler();
         
@@ -93,6 +93,15 @@ namespace ViveDB {
             }
         }
         
+        public IEcsComponentManagerOf<Feet> FeetManager {
+            get {
+                return _FeetManager;
+            }
+            set {
+                _FeetManager = value;
+            }
+        }
+        
         public IEcsComponentManagerOf<Checkpoint> CheckpointManager {
             get {
                 return _CheckpointManager;
@@ -138,15 +147,6 @@ namespace ViveDB {
             }
         }
         
-        public IEcsComponentManagerOf<Feet> FeetManager {
-            get {
-                return _FeetManager;
-            }
-            set {
-                _FeetManager = value;
-            }
-        }
-        
         public override void Setup() {
             base.Setup();
             WandManagerManager = ComponentSystem.RegisterComponent<WandManager>(5);
@@ -154,18 +154,18 @@ namespace ViveDB {
             GrabableManager = ComponentSystem.RegisterComponent<Grabable>(7);
             WandRightManager = ComponentSystem.RegisterComponent<WandRight>(1);
             TurretManager = ComponentSystem.RegisterComponent<Turret>(10);
+            FeetManager = ComponentSystem.RegisterComponent<Feet>(14);
             CheckpointManager = ComponentSystem.RegisterComponent<Checkpoint>(12);
             MenuManager = ComponentSystem.RegisterComponent<Menu>(13);
             BulletManager = ComponentSystem.RegisterComponent<Bullet>(11);
             WandLeftManager = ComponentSystem.RegisterComponent<WandLeft>(3);
             RigManager = ComponentSystem.RegisterComponent<Rig>(9);
-            FeetManager = ComponentSystem.RegisterComponent<Feet>(14);
             this.OnEvent<ViveDB.JumpEvent>().Subscribe(_=>{ PlayerSystemJumpEventFilter(_); }).DisposeWith(this);
             this.OnEvent<ViveDB.PlayerMoveEvent>().Subscribe(_=>{ PlayerSystemPlayerMoveEventFilter(_); }).DisposeWith(this);
             this.OnEvent<uFrame.ECS.UnityUtilities.OnCollisionEnterDispatcher>().Subscribe(_=>{ PlayerSystemOnCollisionEnterFilter(_); }).DisposeWith(this);
+            this.OnEvent<uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher>().Subscribe(_=>{ PlayerSystemFeetOnTriggerEnterFilter(_); }).DisposeWith(this);
             this.OnEvent<uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher>().Subscribe(_=>{ PlayerSystemOnTriggerEnterFilter(_); }).DisposeWith(this);
             this.OnEvent<ViveDB.DeathEvent>().Subscribe(_=>{ PlayerSystemDeathEventFilter(_); }).DisposeWith(this);
-            this.OnEvent<uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher>().Subscribe(_=>{ PlayerSystemFeetOnTriggerEnterFilter(_); }).DisposeWith(this);
         }
         
         protected virtual void PlayerSystemUpdateHandler(Player group) {
@@ -242,6 +242,20 @@ namespace ViveDB {
             this.PlayerSystemOnCollisionEnterHandler(data, ColliderBullet, SourcePlayer);
         }
         
+        protected virtual void PlayerSystemFeetOnTriggerEnterHandler(uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher data, Feet source) {
+        }
+        
+        protected void PlayerSystemFeetOnTriggerEnterFilter(uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher data) {
+            var SourceFeet = FeetManager[data.EntityId];
+            if (SourceFeet == null) {
+                return;
+            }
+            if (!SourceFeet.Enabled) {
+                return;
+            }
+            this.PlayerSystemFeetOnTriggerEnterHandler(data, SourceFeet);
+        }
+        
         protected virtual void PlayerSystemOnTriggerEnterHandler(uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher data, Checkpoint collider, Player source) {
         }
         
@@ -276,20 +290,6 @@ namespace ViveDB {
                 }
                 this.PlayerSystemDeathEventHandler(data, PlayerItems[PlayerIndex]);
             }
-        }
-        
-        protected virtual void PlayerSystemFeetOnTriggerEnterHandler(uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher data, Feet source) {
-        }
-        
-        protected void PlayerSystemFeetOnTriggerEnterFilter(uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher data) {
-            var SourceFeet = FeetManager[data.EntityId];
-            if (SourceFeet == null) {
-                return;
-            }
-            if (!SourceFeet.Enabled) {
-                return;
-            }
-            this.PlayerSystemFeetOnTriggerEnterHandler(data, SourceFeet);
         }
     }
     

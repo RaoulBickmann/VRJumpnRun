@@ -18,7 +18,6 @@ namespace ViveDB {
 
         private int jumpCount;
         private Vector3 lastCheckPoint;
-        private bool grounded;
 
         protected override void Start()
         {
@@ -38,9 +37,8 @@ namespace ViveDB {
         {
             base.PlayerSystemJumpEventHandler(data, @group);
 
-            if (grounded || jumpCount < 2) {
+            if (jumpCount < 2) {
                 jumpCount++;
-                grounded = false;
                 group.GetComponent<Rigidbody>().velocity = new Vector3();
                 group.GetComponent<Rigidbody>().AddForce(new Vector3(0,200,0));
             }
@@ -67,7 +65,8 @@ namespace ViveDB {
         protected override void PlayerSystemFeetOnTriggerEnterHandler(OnTriggerEnterDispatcher data, Feet source)
         {
             base.PlayerSystemFeetOnTriggerEnterHandler(data, source);
-            grounded = true;
+            Debug.Log("grounded");
+            jumpCount = 0;
         }
     }
 }
