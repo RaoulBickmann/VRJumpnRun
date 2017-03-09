@@ -34,13 +34,15 @@ namespace ViveDB {
         
         private IEcsComponentManagerOf<Turret> _TurretManager;
         
+        private IEcsComponentManagerOf<Checkpoint> _CheckpointManager;
+        
+        private IEcsComponentManagerOf<Menu> _MenuManager;
+        
         private IEcsComponentManagerOf<Bullet> _BulletManager;
         
         private IEcsComponentManagerOf<WandLeft> _WandLeftManager;
         
         private IEcsComponentManagerOf<Rig> _RigManager;
-        
-        private IEcsComponentManagerOf<Checkpoint> _CheckpointManager;
         
         public IEcsComponentManagerOf<WandManager> WandManagerManager {
             get {
@@ -87,6 +89,24 @@ namespace ViveDB {
             }
         }
         
+        public IEcsComponentManagerOf<Checkpoint> CheckpointManager {
+            get {
+                return _CheckpointManager;
+            }
+            set {
+                _CheckpointManager = value;
+            }
+        }
+        
+        public IEcsComponentManagerOf<Menu> MenuManager {
+            get {
+                return _MenuManager;
+            }
+            set {
+                _MenuManager = value;
+            }
+        }
+        
         public IEcsComponentManagerOf<Bullet> BulletManager {
             get {
                 return _BulletManager;
@@ -114,15 +134,6 @@ namespace ViveDB {
             }
         }
         
-        public IEcsComponentManagerOf<Checkpoint> CheckpointManager {
-            get {
-                return _CheckpointManager;
-            }
-            set {
-                _CheckpointManager = value;
-            }
-        }
-        
         public override void Setup() {
             base.Setup();
             WandManagerManager = ComponentSystem.RegisterComponent<WandManager>(5);
@@ -130,16 +141,19 @@ namespace ViveDB {
             GrabableManager = ComponentSystem.RegisterComponent<Grabable>(7);
             WandRightManager = ComponentSystem.RegisterComponent<WandRight>(1);
             TurretManager = ComponentSystem.RegisterComponent<Turret>(10);
+            CheckpointManager = ComponentSystem.RegisterComponent<Checkpoint>(12);
+            MenuManager = ComponentSystem.RegisterComponent<Menu>(13);
             BulletManager = ComponentSystem.RegisterComponent<Bullet>(11);
             WandLeftManager = ComponentSystem.RegisterComponent<WandLeft>(3);
             RigManager = ComponentSystem.RegisterComponent<Rig>(9);
-            CheckpointManager = ComponentSystem.RegisterComponent<Checkpoint>(12);
             this.OnEvent<ViveDB.PlayerMoveEvent>().Subscribe(_=>{ InputSystemMoveEventFilter(_); }).DisposeWith(this);
             this.OnEvent<ViveDB.TeleportEvent>().Subscribe(_=>{ InputSystemTeleportEventFilter(_); }).DisposeWith(this);
             this.OnEvent<ViveDB.JumpEvent>().Subscribe(_=>{ InputSystemShootEventFilter(_); }).DisposeWith(this);
             this.OnEvent<uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher>().Subscribe(_=>{ InputSystemOnTriggerEnterFilter(_); }).DisposeWith(this);
             this.OnEvent<uFrame.ECS.UnityUtilities.OnTriggerStayDispatcher>().Subscribe(_=>{ InputSystemOnTriggerStayFilter(_); }).DisposeWith(this);
+            this.OnEvent<ViveDB.MenuEvent>().Subscribe(_=>{ InputSystemMenuEventFilter(_); }).DisposeWith(this);
             this.OnEvent<uFrame.ECS.UnityUtilities.OnTriggerExitDispatcher>().Subscribe(_=>{ InputSystemOnTriggerExitFilter(_); }).DisposeWith(this);
+            this.OnEvent<uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher>().Subscribe(_=>{ InputSystemMenuOnTriggerEnterFilter(_); }).DisposeWith(this);
             this.OnEvent<uFrame.Kernel.KernelLoadedEvent>().Subscribe(_=>{ InputSystemKernelLoadedFilter(_); }).DisposeWith(this);
         }
         
@@ -251,6 +265,21 @@ namespace ViveDB {
             this.InputSystemOnTriggerStayHandler(data, ColliderGrabable, SourceWandRight);
         }
         
+        protected virtual void InputSystemMenuEventHandler(ViveDB.MenuEvent data, WandRight group) {
+        }
+        
+        protected void InputSystemMenuEventFilter(ViveDB.MenuEvent data) {
+            var WandRightItems = WandRightManager.Components;
+            for (var WandRightIndex = 0
+            ; WandRightIndex < WandRightItems.Count; WandRightIndex++
+            ) {
+                if (!WandRightItems[WandRightIndex].Enabled) {
+                    continue;
+                }
+                this.InputSystemMenuEventHandler(data, WandRightItems[WandRightIndex]);
+            }
+        }
+        
         protected virtual void InputSystemOnTriggerExitHandler(uFrame.ECS.UnityUtilities.OnTriggerExitDispatcher data, Grabable collider, WandRight source) {
         }
         
@@ -300,6 +329,27 @@ namespace ViveDB {
                 }
                 this.InputSystemUpdateRightHandler(WandRightItems[WandRightIndex]);
             }
+        }
+        
+        protected virtual void InputSystemMenuOnTriggerEnterHandler(uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher data, Menu collider, WandRight source) {
+        }
+        
+        protected void InputSystemMenuOnTriggerEnterFilter(uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher data) {
+            var ColliderMenu = MenuManager[data.ColliderId];
+            if (ColliderMenu == null) {
+                return;
+            }
+            if (!ColliderMenu.Enabled) {
+                return;
+            }
+            var SourceWandRight = WandRightManager[data.EntityId];
+            if (SourceWandRight == null) {
+                return;
+            }
+            if (!SourceWandRight.Enabled) {
+                return;
+            }
+            this.InputSystemMenuOnTriggerEnterHandler(data, ColliderMenu, SourceWandRight);
         }
         
         protected virtual void InputSystemKernelLoadedHandler(uFrame.Kernel.KernelLoadedEvent data, WandManager group) {

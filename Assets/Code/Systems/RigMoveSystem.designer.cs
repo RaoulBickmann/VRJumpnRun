@@ -34,13 +34,15 @@ namespace ViveDB {
         
         private IEcsComponentManagerOf<Turret> _TurretManager;
         
+        private IEcsComponentManagerOf<Checkpoint> _CheckpointManager;
+        
+        private IEcsComponentManagerOf<Menu> _MenuManager;
+        
         private IEcsComponentManagerOf<Bullet> _BulletManager;
         
         private IEcsComponentManagerOf<WandLeft> _WandLeftManager;
         
         private IEcsComponentManagerOf<Rig> _RigManager;
-        
-        private IEcsComponentManagerOf<Checkpoint> _CheckpointManager;
         
         public IEcsComponentManagerOf<WandManager> WandManagerManager {
             get {
@@ -87,6 +89,24 @@ namespace ViveDB {
             }
         }
         
+        public IEcsComponentManagerOf<Checkpoint> CheckpointManager {
+            get {
+                return _CheckpointManager;
+            }
+            set {
+                _CheckpointManager = value;
+            }
+        }
+        
+        public IEcsComponentManagerOf<Menu> MenuManager {
+            get {
+                return _MenuManager;
+            }
+            set {
+                _MenuManager = value;
+            }
+        }
+        
         public IEcsComponentManagerOf<Bullet> BulletManager {
             get {
                 return _BulletManager;
@@ -114,15 +134,6 @@ namespace ViveDB {
             }
         }
         
-        public IEcsComponentManagerOf<Checkpoint> CheckpointManager {
-            get {
-                return _CheckpointManager;
-            }
-            set {
-                _CheckpointManager = value;
-            }
-        }
-        
         public override void Setup() {
             base.Setup();
             WandManagerManager = ComponentSystem.RegisterComponent<WandManager>(5);
@@ -130,10 +141,11 @@ namespace ViveDB {
             GrabableManager = ComponentSystem.RegisterComponent<Grabable>(7);
             WandRightManager = ComponentSystem.RegisterComponent<WandRight>(1);
             TurretManager = ComponentSystem.RegisterComponent<Turret>(10);
+            CheckpointManager = ComponentSystem.RegisterComponent<Checkpoint>(12);
+            MenuManager = ComponentSystem.RegisterComponent<Menu>(13);
             BulletManager = ComponentSystem.RegisterComponent<Bullet>(11);
             WandLeftManager = ComponentSystem.RegisterComponent<WandLeft>(3);
             RigManager = ComponentSystem.RegisterComponent<Rig>(9);
-            CheckpointManager = ComponentSystem.RegisterComponent<Checkpoint>(12);
             this.OnEvent<ViveDB.RigMoveEvent>().Subscribe(_=>{ RigMoveSystemRigMoveEventFilter(_); }).DisposeWith(this);
         }
         

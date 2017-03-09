@@ -21,6 +21,8 @@ namespace ViveDB {
         private SteamVR_Controller.Device rightController;
         private GameObject grabbedGameObject;
 
+        private GameObject Menu;
+
 
 
 		public int i = 0;
@@ -50,6 +52,7 @@ namespace ViveDB {
         private Valve.VR.EVRButtonId gripButton = Valve.VR.EVRButtonId.k_EButton_Grip;
         private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
 		private Valve.VR.EVRButtonId touchPad = Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad;
+        private Valve.VR.EVRButtonId menuButton = Valve.VR.EVRButtonId.k_EButton_ApplicationMenu;
 
 
         protected override void InputSystemKernelLoadedHandler(KernelLoadedEvent data, WandManager group)
@@ -57,6 +60,7 @@ namespace ViveDB {
             base.InputSystemKernelLoadedHandler(data, group);
             leftController = SteamVR_Controller.Input ((int)group.Left.GetComponent<SteamVR_TrackedObject>().index);
 			rightController = SteamVR_Controller.Input ((int)group.Right.GetComponent<SteamVR_TrackedObject>().index);
+            Menu = GameObject.FindGameObjectWithTag("Menu");
 
 			//// Initialize our LineRenderer
 			//lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -82,6 +86,10 @@ namespace ViveDB {
             if (leftController.GetPressDown(triggerButton))
             {
                 Publish(new JumpEvent());
+            }
+            if (leftController.GetPressDown(menuButton))
+            {
+                Publish(new MenuEvent());
             }
         }
 
@@ -137,6 +145,19 @@ namespace ViveDB {
 
             }
 
+        }
+
+        protected override void InputSystemMenuEventHandler(MenuEvent data, WandRight group)
+        {
+            base.InputSystemMenuEventHandler(data, group);
+            Menu.SetActive(!Menu.activeSelf);
+
+        }
+
+        protected override void InputSystemMenuOnTriggerEnterHandler(OnTriggerEnterDispatcher data, Menu collider, WandRight source)
+        {
+            base.InputSystemMenuOnTriggerEnterHandler(data, collider, source);
+            Debug.Log("Restart");
         }
 
         //protected override void InputSystemUpdateHandler(WandManager group) {

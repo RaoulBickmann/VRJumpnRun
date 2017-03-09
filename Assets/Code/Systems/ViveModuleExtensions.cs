@@ -58,6 +58,13 @@ static
         
         #region 
 static
+        public uFrame.ECS.APIs.IEcsComponentManagerOf<Menu> MenuManager(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<Menu>();
+        }
+        #endregion
+        
+        #region 
+static
         public uFrame.ECS.APIs.IEcsComponentManagerOf<Checkpoint> CheckpointManager(this uFrame.ECS.APIs.IEcsSystem system) {
             return system.ComponentSystem.RegisterComponent<Checkpoint>();
         }
@@ -116,6 +123,13 @@ static
 static
         public List<Player> PlayerComponents(this uFrame.ECS.APIs.IEcsSystem system) {
             return system.ComponentSystem.RegisterComponent<Player>().Components;
+        }
+        #endregion
+        
+        #region 
+static
+        public List<Menu> MenuComponents(this uFrame.ECS.APIs.IEcsSystem system) {
+            return system.ComponentSystem.RegisterComponent<Menu>().Components;
         }
         #endregion
         
