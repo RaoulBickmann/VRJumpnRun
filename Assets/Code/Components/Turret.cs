@@ -30,6 +30,9 @@ namespace ViveDB {
         [UnityEngine.SerializeField()]
         private GameObject _Bullet;
         
+        [UnityEngine.SerializeField()]
+        private Int32 _ShootDelay;
+        
         private Subject<PropertyChangedEvent<Int32>> _CounterObservable;
         
         private PropertyChangedEvent<Int32> _CounterEvent;
@@ -37,6 +40,10 @@ namespace ViveDB {
         private Subject<PropertyChangedEvent<GameObject>> _BulletObservable;
         
         private PropertyChangedEvent<GameObject> _BulletEvent;
+        
+        private Subject<PropertyChangedEvent<Int32>> _ShootDelayObservable;
+        
+        private PropertyChangedEvent<Int32> _ShootDelayEvent;
         
         public override int ComponentId {
             get {
@@ -53,6 +60,12 @@ namespace ViveDB {
         public IObservable<PropertyChangedEvent<GameObject>> BulletObservable {
             get {
                 return _BulletObservable ?? (_BulletObservable = new Subject<PropertyChangedEvent<GameObject>>());
+            }
+        }
+        
+        public IObservable<PropertyChangedEvent<Int32>> ShootDelayObservable {
+            get {
+                return _ShootDelayObservable ?? (_ShootDelayObservable = new Subject<PropertyChangedEvent<Int32>>());
             }
         }
         
@@ -74,12 +87,25 @@ namespace ViveDB {
             }
         }
         
+        public Int32 ShootDelay {
+            get {
+                return _ShootDelay;
+            }
+            set {
+                SetShootDelay(value);
+            }
+        }
+        
         public virtual void SetCounter(Int32 value) {
             SetProperty(ref _Counter, value, ref _CounterEvent, _CounterObservable);
         }
         
         public virtual void SetBullet(GameObject value) {
             SetProperty(ref _Bullet, value, ref _BulletEvent, _BulletObservable);
+        }
+        
+        public virtual void SetShootDelay(Int32 value) {
+            SetProperty(ref _ShootDelay, value, ref _ShootDelayEvent, _ShootDelayObservable);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace ViveDB {
         protected override void TurretSystemFixedUpdateHandler(Turret group)
         {
             base.TurretSystemFixedUpdateHandler(group);
-            if (group.Counter == 33)
+            if (group.Counter == group.ShootDelay)
             {
                 GameObject bullet = Instantiate(group.Bullet, group.transform.position + group.transform.forward * 0.2f, Quaternion.identity);
                 bullet.GetComponent<Rigidbody>().velocity = group.transform.forward;

@@ -108,6 +108,7 @@ MonoBehaviour:
   _Entity: {fileID: 114888220821599244}
   _Counter: 0
   _Bullet: {fileID: 1469791142106492, guid: 99035c313700a0947bbaa27931375cb4, type: 2}
+  _ShootDelay: 33
 --- !u!114 &114888220821599244
 MonoBehaviour:
   m_ObjectHideFlags: 1
