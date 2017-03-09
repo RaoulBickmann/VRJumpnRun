@@ -54,6 +54,7 @@ namespace ViveDB {
         {
             base.PlayerSystemOnTriggerEnterHandler(data, collider, source);
             lastCheckPoint = collider.transform.position;
+            collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
         }
 
         protected override void PlayerSystemDeathEventHandler(DeathEvent data, Player @group)
