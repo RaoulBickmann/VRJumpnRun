@@ -96,7 +96,7 @@ namespace uFrame.Kernel
                 Instance = this;
                 //if (this.gameObject.GetComponent<MainThreadDispatcher>() == null)
                 //    this.gameObject.AddComponent<MainThreadDispatcher>();
-                DontDestroyOnLoad(gameObject);
+                //DontDestroyOnLoad(gameObject);
                 StartCoroutine(Startup());
             }
         }

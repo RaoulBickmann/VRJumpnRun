@@ -1,4 +1,5 @@
 using uFrame.ECS.UnityUtilities;
+using UnityEngine.SceneManagement;
 
 namespace ViveDB {
     using System;
@@ -157,6 +158,7 @@ namespace ViveDB {
         protected override void InputSystemMenuOnTriggerEnterHandler(OnTriggerEnterDispatcher data, Menu collider, WandRight source)
         {
             base.InputSystemMenuOnTriggerEnterHandler(data, collider, source);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             Debug.Log("Restart");
         }
 
