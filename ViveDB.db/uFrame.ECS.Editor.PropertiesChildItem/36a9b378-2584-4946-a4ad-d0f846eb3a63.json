@@ -1,7 +1,7 @@
 {
 	"FriendlyName":"space"	, 
-	"RelatedType":"KeyCode"	, 
+	"RelatedType":"Int32"	, 
 	"Identifier":"36a9b378-2584-4946-a4ad-d0f846eb3a63"	, 
 	"NodeId":"8d90ad11-fd0b-42e0-bba8-582cabb45d14"	, 
 	"Order":0	, 
-	"Name":"space"}
+	"Name":"jumpForce"}

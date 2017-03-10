@@ -20,7 +20,8 @@ namespace ViveDB {
 
         private SteamVR_Controller.Device leftController;
         private SteamVR_Controller.Device rightController;
-        private GameObject grabbedGameObject;
+        private GameObject grabbedGameObjectLeft;
+        private GameObject grabbedGameObjectRight;
 
         private GameObject Menu;
 
@@ -63,17 +64,6 @@ namespace ViveDB {
 			rightController = SteamVR_Controller.Input ((int)group.Right.GetComponent<SteamVR_TrackedObject>().index);
             Menu = GameObject.FindGameObjectWithTag("Menu");
             Publish(new MenuEvent());
-
-            //// Initialize our LineRenderer
-            //lineRenderer = gameObject.AddComponent<LineRenderer>();
-            //lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-            //lineRenderer.SetWidth(0.01f, 0.01f);
-            //lineRenderer.SetVertexCount(2);
-
-            //// Initialize our vertex array. This will just contain
-            //// two Vector3's which represent the start and end locations
-            //// of our LineRenderer
-            //lineRendererVertices = new Vector3[2];
         }
 
         protected override void InputSystemUpdateLeftHandler(WandLeft group)
@@ -84,10 +74,6 @@ namespace ViveDB {
                 var moveEvent = new RigMoveEvent();
                 moveEvent.movement = leftController.GetAxis(touchPad) * Time.deltaTime;
                 Publish(moveEvent);
-            }
-            if (leftController.GetPressDown(triggerButton))
-            {
-                Publish(new JumpEvent());
             }
             if (leftController.GetPressDown(menuButton))
             {
@@ -104,9 +90,13 @@ namespace ViveDB {
                 moveEvent.movement = rightController.GetAxis(touchPad) * Time.deltaTime;
                 Publish(moveEvent);
             }
-            if (!rightController.GetPress(triggerButton) && grabbedGameObject != null)
+            if (!rightController.GetPress(triggerButton) && grabbedGameObjectRight != null)
             {
-                grabbedGameObject.transform.SetParent(null);
+                grabbedGameObjectRight.transform.SetParent(null);
+            }
+            if (rightController.GetPressDown(touchPad))
+            {
+                Publish(new JumpEvent());
             }
         }
 
@@ -121,14 +111,14 @@ namespace ViveDB {
         protected override void InputSystemOnTriggerStayHandler(OnTriggerStayDispatcher data, Grabable collider, WandRight source)
         {
             base.InputSystemOnTriggerStayHandler(data, collider, source);
-            if (grabbedGameObject == null)
+            if (grabbedGameObjectRight == null)
             {
-                grabbedGameObject = collider.gameObject;
-                grabbedGameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+                grabbedGameObjectRight = collider.gameObject;
+                grabbedGameObjectRight.GetComponent<MeshRenderer>().material.color = Color.red;
             }
-            if (rightController.GetPress(triggerButton) && grabbedGameObject.transform.parent != source.gameObject.transform)
+            if (rightController.GetPress(triggerButton) && grabbedGameObjectRight.transform.parent != source.gameObject.transform)
             {
-                grabbedGameObject.transform.SetParent(source.transform, true);
+                grabbedGameObjectRight.transform.SetParent(source.transform, true);
             }
         }
 
@@ -137,12 +127,12 @@ namespace ViveDB {
         {
             base.InputSystemOnTriggerExitHandler(data, collider, source);
             Debug.Log("Exit");
-            if(grabbedGameObject != null)
+            if(grabbedGameObjectRight != null)
             {
-                if(grabbedGameObject.transform.parent != source.gameObject.transform)
+                if(grabbedGameObjectRight.transform.parent != source.gameObject.transform)
                 {
-                    grabbedGameObject.GetComponent<MeshRenderer>().material.color = Color.green;
-                    grabbedGameObject = null;
+                    grabbedGameObjectRight.GetComponent<MeshRenderer>().material.color = Color.green;
+                    grabbedGameObjectRight = null;
                 }
 
             }
@@ -162,100 +152,6 @@ namespace ViveDB {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             Debug.Log("Restart");
         }
-
-        //protected override void InputSystemUpdateHandler(WandManager group) {
-        //	base.InputSystemUpdateHandler (group);
-        //	if (trackedContrRight.triggerPressed) {
-        //		Publish (new ShootEvent());
-        //	}
-
-        //	if (trackedContrRight.padPressed) {
-        //		Publish (new TeleportEvent());
-        //	}
-
-        //	if (trackedContrRight.padTouched) {
-        //		var moveEvent = new MoveEvent ();
-        //		moveEvent.movement = GetTouchpadAxis () * Time.deltaTime;
-        //		Publish (moveEvent);
-        //	}
-
-        //	// Update our LineRenderer
-        //	if (lineRenderer && lineRenderer.enabled)
-        //	{
-        //		RaycastHit hit;
-        //		Vector3 startPos = trackedContrRight.transform.position;;
-
-        //		// If our raycast hits, end the line at that position. Otherwise,
-        //		// just make our line point straight out for 1000 meters.
-        //		// If the raycast hits, the line will be green, otherwise it'll be red.
-        //		if (Physics.Raycast(startPos, trackedContrRight.transform.forward, out hit, 1000.0f))
-        //		{
-        //			lineRendererVertices[1] = hit.point;
-        //			lineRenderer.SetColors(Color.green, Color.green);
-        //		}
-        //		else
-        //		{
-        //			lineRendererVertices[1] = startPos + trackedContrRight.transform.forward * 1000.0f;
-        //			lineRenderer.SetColors(Color.red, Color.red);
-        //		}
-
-        //		lineRendererVertices[0] = trackedContrRight.transform.position;
-        //		lineRenderer.SetPositions(lineRendererVertices);
-        //	}
-
-
-
-
-        //}
-
-        //public Vector2 GetTouchpadAxis()
-        //{
-        //			return controller.GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad);
-        //}
-
-        //protected override void InputSystemShootEventHandler(ViveDB.ShootEvent data, WandManager group) {
-        //	if ((i % 5 == 0)) {
-        //		base.InputSystemShootEventHandler (data, group);
-        //		var cube = GameObject.CreatePrimitive (PrimitiveType.Sphere);
-        //		cube.transform.position = trackedContrRight.transform.position;
-        //		cube.transform.localScale *= 0.1f;
-        //		cube.AddComponent<Rigidbody> ();
-        //		cube.GetComponent<Rigidbody> ().velocity = trackedContrRight.transform.forward * 100;
-        //	} else {
-        //		i++;
-        //	}
-
-        //}
-
-        //protected override void InputSystemTeleportEventHandler(ViveDB.TeleportEvent data, WandManager group) {
-        //	Debug.Log("Teleport");
-
-        //	base.InputSystemTeleportEventHandler (data, group);
-        //	// We want to move the whole [CameraRig] around when we teleport,
-        //	// which should be the parent of this controller. If we can't find the
-        //	// [CameraRig], we can't teleport, so return.
-        //	if (trackedContrRight.transform.parent == null)
-        //		return;
-
-        //	RaycastHit hit;
-        //	Vector3 startPos = trackedContrRight.transform.position;
-
-        //	// Perform a raycast starting from the controller's position and going 1000 meters
-        //	// out in the forward direction of the controller to see if we hit something to teleport to.
-        //	if (Physics.Raycast(startPos, trackedContrRight.transform.forward, out hit, 1000.0f))
-        //	{
-        //		trackedContrRight.transform.parent.position = hit.point;
-        //	}
-        //}
-
-        //protected override void InputSystemMoveEventHandler(MoveEvent data, Player group) {
-        //	base.InputSystemMoveEventHandler (data, group);
-        //	Debug.Log (data.movement);
-        //	group.transform.rotation = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0);
-        //	//group.transform.Translate (new Vector3(group.transform.forward.x * data.movement.x, 0, group.transform.forward.y * data.movement.y), Space.World);
-        //	group.transform.Translate (new Vector3(data.movement.x, 0, data.movement.y), Space.Self);
-
-        //}
     }
 }
 

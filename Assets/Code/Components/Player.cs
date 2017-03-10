@@ -25,11 +25,18 @@ namespace ViveDB {
     public partial class Player : uFrame.ECS.Components.EcsComponent {
         
         [UnityEngine.SerializeField()]
-        private KeyCode _space;
+        private Int32 _jumpForce;
         
-        private Subject<PropertyChangedEvent<KeyCode>> _spaceObservable;
+        [UnityEngine.SerializeField()]
+        private Double _moveSpeed;
         
-        private PropertyChangedEvent<KeyCode> _spaceEvent;
+        private Subject<PropertyChangedEvent<Int32>> _jumpForceObservable;
+        
+        private PropertyChangedEvent<Int32> _jumpForceEvent;
+        
+        private Subject<PropertyChangedEvent<Double>> _moveSpeedObservable;
+        
+        private PropertyChangedEvent<Double> _moveSpeedEvent;
         
         public override int ComponentId {
             get {
@@ -37,23 +44,42 @@ namespace ViveDB {
             }
         }
         
-        public IObservable<PropertyChangedEvent<KeyCode>> spaceObservable {
+        public IObservable<PropertyChangedEvent<Int32>> jumpForceObservable {
             get {
-                return _spaceObservable ?? (_spaceObservable = new Subject<PropertyChangedEvent<KeyCode>>());
+                return _jumpForceObservable ?? (_jumpForceObservable = new Subject<PropertyChangedEvent<Int32>>());
             }
         }
         
-        public KeyCode space {
+        public IObservable<PropertyChangedEvent<Double>> moveSpeedObservable {
             get {
-                return _space;
+                return _moveSpeedObservable ?? (_moveSpeedObservable = new Subject<PropertyChangedEvent<Double>>());
+            }
+        }
+        
+        public Int32 jumpForce {
+            get {
+                return _jumpForce;
             }
             set {
-                Setspace(value);
+                SetjumpForce(value);
             }
         }
         
-        public virtual void Setspace(KeyCode value) {
-            SetProperty(ref _space, value, ref _spaceEvent, _spaceObservable);
+        public Double moveSpeed {
+            get {
+                return _moveSpeed;
+            }
+            set {
+                SetmoveSpeed(value);
+            }
+        }
+        
+        public virtual void SetjumpForce(Int32 value) {
+            SetProperty(ref _jumpForce, value, ref _jumpForceEvent, _jumpForceObservable);
+        }
+        
+        public virtual void SetmoveSpeed(Double value) {
+            SetProperty(ref _moveSpeed, value, ref _moveSpeedEvent, _moveSpeedObservable);
         }
     }
 }

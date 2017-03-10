@@ -23,14 +23,14 @@ namespace ViveDB {
         {
             base.Start();
             jumpCount = 0;
+            lastCheckPoint = GameObject.FindGameObjectWithTag("Player").transform.position;
         }
 
         protected override void PlayerSystemPlayerMoveEventHandler(PlayerMoveEvent data, Player group)
         {
             base.PlayerSystemPlayerMoveEventHandler(data, group);
-            group.transform.Translate(new Vector3(data.movement.x, 0, data.movement.y) * 0.75f, Space.Self);
+            group.transform.Translate(new Vector3(data.movement.x, 0, data.movement.y) * (float)group.moveSpeed, Space.Self);
             group.transform.rotation = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0);
-            //vllt lieber ins update
         }
 
         protected override void PlayerSystemJumpEventHandler(JumpEvent data, Player @group)
@@ -40,7 +40,7 @@ namespace ViveDB {
             if (jumpCount < 2) {
                 jumpCount++;
                 group.GetComponent<Rigidbody>().velocity = new Vector3();
-                group.GetComponent<Rigidbody>().AddForce(new Vector3(0,200,0));
+                group.GetComponent<Rigidbody>().AddForce(new Vector3(0,group.jumpForce,0));
             }
         }
 

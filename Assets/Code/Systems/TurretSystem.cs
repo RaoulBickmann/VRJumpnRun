@@ -22,7 +22,7 @@ namespace ViveDB {
             {
                 GameObject bullet = Instantiate(group.Bullet, group.transform.position + group.transform.forward * 0.2f, Quaternion.identity);
                 bullet.GetComponent<Rigidbody>().velocity = group.transform.forward;
-                Destroy(bullet, 5);
+                Destroy(bullet, 3);
                 group.Counter = 0;
             }
             else

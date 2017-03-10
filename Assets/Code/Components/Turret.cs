@@ -28,22 +28,22 @@ namespace ViveDB {
         private Int32 _Counter;
         
         [UnityEngine.SerializeField()]
-        private GameObject _Bullet;
+        private Int32 _ShootDelay;
         
         [UnityEngine.SerializeField()]
-        private Int32 _ShootDelay;
+        private GameObject _Bullet;
         
         private Subject<PropertyChangedEvent<Int32>> _CounterObservable;
         
         private PropertyChangedEvent<Int32> _CounterEvent;
         
-        private Subject<PropertyChangedEvent<GameObject>> _BulletObservable;
-        
-        private PropertyChangedEvent<GameObject> _BulletEvent;
-        
         private Subject<PropertyChangedEvent<Int32>> _ShootDelayObservable;
         
         private PropertyChangedEvent<Int32> _ShootDelayEvent;
+        
+        private Subject<PropertyChangedEvent<GameObject>> _BulletObservable;
+        
+        private PropertyChangedEvent<GameObject> _BulletEvent;
         
         public override int ComponentId {
             get {
@@ -57,15 +57,15 @@ namespace ViveDB {
             }
         }
         
-        public IObservable<PropertyChangedEvent<GameObject>> BulletObservable {
-            get {
-                return _BulletObservable ?? (_BulletObservable = new Subject<PropertyChangedEvent<GameObject>>());
-            }
-        }
-        
         public IObservable<PropertyChangedEvent<Int32>> ShootDelayObservable {
             get {
                 return _ShootDelayObservable ?? (_ShootDelayObservable = new Subject<PropertyChangedEvent<Int32>>());
+            }
+        }
+        
+        public IObservable<PropertyChangedEvent<GameObject>> BulletObservable {
+            get {
+                return _BulletObservable ?? (_BulletObservable = new Subject<PropertyChangedEvent<GameObject>>());
             }
         }
         
@@ -78,15 +78,6 @@ namespace ViveDB {
             }
         }
         
-        public GameObject Bullet {
-            get {
-                return _Bullet;
-            }
-            set {
-                SetBullet(value);
-            }
-        }
-        
         public Int32 ShootDelay {
             get {
                 return _ShootDelay;
@@ -96,16 +87,25 @@ namespace ViveDB {
             }
         }
         
+        public GameObject Bullet {
+            get {
+                return _Bullet;
+            }
+            set {
+                SetBullet(value);
+            }
+        }
+        
         public virtual void SetCounter(Int32 value) {
             SetProperty(ref _Counter, value, ref _CounterEvent, _CounterObservable);
         }
         
-        public virtual void SetBullet(GameObject value) {
-            SetProperty(ref _Bullet, value, ref _BulletEvent, _BulletObservable);
-        }
-        
         public virtual void SetShootDelay(Int32 value) {
             SetProperty(ref _ShootDelay, value, ref _ShootDelayEvent, _ShootDelayObservable);
+        }
+        
+        public virtual void SetBullet(GameObject value) {
+            SetProperty(ref _Bullet, value, ref _BulletEvent, _BulletObservable);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace ViveDB {
     using ViveDB;
     
     
-    public partial class PlayerSystemBase : uFrame.ECS.Systems.EcsSystem, uFrame.ECS.APIs.ISystemUpdate {
+    public partial class PlayerSystemBase : uFrame.ECS.Systems.EcsSystem {
         
         private IEcsComponentManagerOf<WandManager> _WandManagerManager;
         
@@ -45,8 +45,6 @@ namespace ViveDB {
         private IEcsComponentManagerOf<WandLeft> _WandLeftManager;
         
         private IEcsComponentManagerOf<Rig> _RigManager;
-        
-        private PlayerSystemUpdateHandler PlayerSystemUpdateHandlerInstance = new PlayerSystemUpdateHandler();
         
         public IEcsComponentManagerOf<WandManager> WandManagerManager {
             get {
@@ -166,29 +164,6 @@ namespace ViveDB {
             this.OnEvent<uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher>().Subscribe(_=>{ PlayerSystemFeetOnTriggerEnterFilter(_); }).DisposeWith(this);
             this.OnEvent<uFrame.ECS.UnityUtilities.OnTriggerEnterDispatcher>().Subscribe(_=>{ PlayerSystemOnTriggerEnterFilter(_); }).DisposeWith(this);
             this.OnEvent<ViveDB.DeathEvent>().Subscribe(_=>{ PlayerSystemDeathEventFilter(_); }).DisposeWith(this);
-        }
-        
-        protected virtual void PlayerSystemUpdateHandler(Player group) {
-            var handler = PlayerSystemUpdateHandlerInstance;
-            handler.System = this;
-            handler.Group = group;
-            StartCoroutine(handler.Execute());
-        }
-        
-        protected void PlayerSystemUpdateFilter() {
-            var PlayerItems = PlayerManager.Components;
-            for (var PlayerIndex = 0
-            ; PlayerIndex < PlayerItems.Count; PlayerIndex++
-            ) {
-                if (!PlayerItems[PlayerIndex].Enabled) {
-                    continue;
-                }
-                this.PlayerSystemUpdateHandler(PlayerItems[PlayerIndex]);
-            }
-        }
-        
-        public virtual void SystemUpdate() {
-            PlayerSystemUpdateFilter();
         }
         
         protected virtual void PlayerSystemJumpEventHandler(ViveDB.JumpEvent data, Player group) {
