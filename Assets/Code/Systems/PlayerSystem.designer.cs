@@ -24,11 +24,11 @@ namespace ViveDB {
     
     public partial class PlayerSystemBase : uFrame.ECS.Systems.EcsSystem {
         
-        private IEcsComponentManagerOf<WandManager> _WandManagerManager;
-        
         private IEcsComponentManagerOf<Player> _PlayerManager;
         
         private IEcsComponentManagerOf<Grabable> _GrabableManager;
+        
+        private IEcsComponentManagerOf<WandLeft> _WandLeftManager;
         
         private IEcsComponentManagerOf<WandRight> _WandRightManager;
         
@@ -40,20 +40,11 @@ namespace ViveDB {
         
         private IEcsComponentManagerOf<Menu> _MenuManager;
         
+        private IEcsComponentManagerOf<WandManager> _WandManagerManager;
+        
         private IEcsComponentManagerOf<Bullet> _BulletManager;
         
-        private IEcsComponentManagerOf<WandLeft> _WandLeftManager;
-        
         private IEcsComponentManagerOf<Rig> _RigManager;
-        
-        public IEcsComponentManagerOf<WandManager> WandManagerManager {
-            get {
-                return _WandManagerManager;
-            }
-            set {
-                _WandManagerManager = value;
-            }
-        }
         
         public IEcsComponentManagerOf<Player> PlayerManager {
             get {
@@ -70,6 +61,15 @@ namespace ViveDB {
             }
             set {
                 _GrabableManager = value;
+            }
+        }
+        
+        public IEcsComponentManagerOf<WandLeft> WandLeftManager {
+            get {
+                return _WandLeftManager;
+            }
+            set {
+                _WandLeftManager = value;
             }
         }
         
@@ -118,21 +118,21 @@ namespace ViveDB {
             }
         }
         
+        public IEcsComponentManagerOf<WandManager> WandManagerManager {
+            get {
+                return _WandManagerManager;
+            }
+            set {
+                _WandManagerManager = value;
+            }
+        }
+        
         public IEcsComponentManagerOf<Bullet> BulletManager {
             get {
                 return _BulletManager;
             }
             set {
                 _BulletManager = value;
-            }
-        }
-        
-        public IEcsComponentManagerOf<WandLeft> WandLeftManager {
-            get {
-                return _WandLeftManager;
-            }
-            set {
-                _WandLeftManager = value;
             }
         }
         
@@ -147,16 +147,16 @@ namespace ViveDB {
         
         public override void Setup() {
             base.Setup();
-            WandManagerManager = ComponentSystem.RegisterComponent<WandManager>(5);
             PlayerManager = ComponentSystem.RegisterComponent<Player>(6);
             GrabableManager = ComponentSystem.RegisterComponent<Grabable>(7);
+            WandLeftManager = ComponentSystem.RegisterComponent<WandLeft>(3);
             WandRightManager = ComponentSystem.RegisterComponent<WandRight>(1);
             TurretManager = ComponentSystem.RegisterComponent<Turret>(10);
             FeetManager = ComponentSystem.RegisterComponent<Feet>(14);
             CheckpointManager = ComponentSystem.RegisterComponent<Checkpoint>(12);
             MenuManager = ComponentSystem.RegisterComponent<Menu>(13);
+            WandManagerManager = ComponentSystem.RegisterComponent<WandManager>(5);
             BulletManager = ComponentSystem.RegisterComponent<Bullet>(11);
-            WandLeftManager = ComponentSystem.RegisterComponent<WandLeft>(3);
             RigManager = ComponentSystem.RegisterComponent<Rig>(9);
             this.OnEvent<ViveDB.JumpEvent>().Subscribe(_=>{ PlayerSystemJumpEventFilter(_); }).DisposeWith(this);
             this.OnEvent<ViveDB.PlayerMoveEvent>().Subscribe(_=>{ PlayerSystemPlayerMoveEventFilter(_); }).DisposeWith(this);

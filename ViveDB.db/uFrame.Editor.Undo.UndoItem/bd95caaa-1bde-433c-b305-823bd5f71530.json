@@ -1,0 +1,8 @@
+{
+	"Identifier":"bd95caaa-1bde-433c-b305-823bd5f71530"	, 
+	"Time":"3/11/2017 6:09:09 PM"	, 
+	"Group":1898	, 
+	"DataRecordId":"522a3f72-2d74-422e-928a-21d8a8c0075e"	, 
+	"Type":1	, 
+	"RecordType":"uFrame.ECS.Editor.HandlerNode, Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"	, 
+	"Data":"{\r\n\t\"CodeHandler\":false\t, \r\n\t\"Custom\":false\t, \r\n\t\"MetaType\":\"uFrame.ECS.APIs.ISystemUpdate\"\t, \r\n\t\"VariableCount\":0\t, \r\n\t\"StartActionId\":\"fe4fa45a-0802-446b-b88d-0cb5862bf020\"\t, \r\n\t\"VariableName\":\"HandlerNode4\"\t, \r\n\t\"Name\":\"InputSystemUpdate\"\t, \r\n\t\"Order\":0\t, \r\n\t\"GraphId\":\"bb6b8620-a43b-476b-a115-c788fbdf919c\"\t, \r\n\t\"Identifier\":\"522a3f72-2d74-422e-928a-21d8a8c0075e\"\t, \r\n\t\"Expanded\":false}\r\n"}

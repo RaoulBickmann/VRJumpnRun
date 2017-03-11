@@ -1,0 +1,8 @@
+{
+	"Identifier":"39e37d1c-db08-4fc9-a892-87a72e23bbad"	, 
+	"Time":"3/11/2017 6:09:09 PM"	, 
+	"Group":1898	, 
+	"DataRecordId":"6c7fff63-a132-4faf-bd52-67dfdf86d8d8"	, 
+	"Type":1	, 
+	"RecordType":"uFrame.ECS.Editor.HandlerNode, Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"	, 
+	"Data":"{\r\n\t\"CodeHandler\":false\t, \r\n\t\"Custom\":false\t, \r\n\t\"MetaType\":\"e48f672a-13d2-4853-b020-3fb86a2b61b8\"\t, \r\n\t\"VariableCount\":0\t, \r\n\t\"VariableName\":\"HandlerNode15\"\t, \r\n\t\"Name\":\"InputSystemMoveEvent\"\t, \r\n\t\"Order\":0\t, \r\n\t\"GraphId\":\"bb6b8620-a43b-476b-a115-c788fbdf919c\"\t, \r\n\t\"Identifier\":\"6c7fff63-a132-4faf-bd52-67dfdf86d8d8\"\t, \r\n\t\"Expanded\":false}\r\n"}

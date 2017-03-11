@@ -20,8 +20,7 @@ namespace ViveDB {
 
         private SteamVR_Controller.Device leftController;
         private SteamVR_Controller.Device rightController;
-        private GameObject grabbedGameObjectLeft;
-        private GameObject grabbedGameObjectRight;
+        private GameObject grabbedGameObject;
 
         private GameObject Menu;
 
@@ -79,6 +78,10 @@ namespace ViveDB {
             {
                 Publish(new MenuEvent());
             }
+            if (!leftController.GetPress(triggerButton) && grabbedGameObject != null)
+            {
+                grabbedGameObject.transform.SetParent(null);
+            }
         }
 
         protected override void InputSystemUpdateRightHandler(WandRight group)
@@ -90,17 +93,13 @@ namespace ViveDB {
                 moveEvent.movement = rightController.GetAxis(touchPad) * Time.deltaTime;
                 Publish(moveEvent);
             }
-            if (!rightController.GetPress(triggerButton) && grabbedGameObjectRight != null)
-            {
-                grabbedGameObjectRight.transform.SetParent(null);
-            }
             if (rightController.GetPressDown(touchPad))
             {
                 Publish(new JumpEvent());
             }
         }
 
-        protected override void InputSystemOnTriggerEnterHandler(OnTriggerEnterDispatcher data, Grabable collider, WandRight source)
+        protected override void InputSystemOnTriggerEnterHandler(OnTriggerEnterDispatcher data, Grabable collider, WandLeft source)
         {
             base.InputSystemOnTriggerEnterHandler(data, collider, source);
             Debug.Log("Enter");
@@ -108,31 +107,31 @@ namespace ViveDB {
 
         }
 
-        protected override void InputSystemOnTriggerStayHandler(OnTriggerStayDispatcher data, Grabable collider, WandRight source)
+        protected override void InputSystemOnTriggerStayHandler(OnTriggerStayDispatcher data, Grabable collider, WandLeft source)
         {
             base.InputSystemOnTriggerStayHandler(data, collider, source);
-            if (grabbedGameObjectRight == null)
+            if (grabbedGameObject == null)
             {
-                grabbedGameObjectRight = collider.gameObject;
-                grabbedGameObjectRight.GetComponent<MeshRenderer>().material.color = Color.red;
+                grabbedGameObject = collider.gameObject;
+                grabbedGameObject.GetComponent<MeshRenderer>().material.color = Color.red;
             }
-            if (rightController.GetPress(triggerButton) && grabbedGameObjectRight.transform.parent != source.gameObject.transform)
+            if (leftController.GetPress(triggerButton) && grabbedGameObject.transform.parent != source.gameObject.transform)
             {
-                grabbedGameObjectRight.transform.SetParent(source.transform, true);
+                grabbedGameObject.transform.SetParent(source.transform, true);
             }
         }
 
 
-        protected override void InputSystemOnTriggerExitHandler(OnTriggerExitDispatcher data, Grabable collider, WandRight source)
+        protected override void InputSystemOnTriggerExitHandler(OnTriggerExitDispatcher data, Grabable collider, WandLeft source)
         {
             base.InputSystemOnTriggerExitHandler(data, collider, source);
             Debug.Log("Exit");
-            if(grabbedGameObjectRight != null)
+            if(grabbedGameObject != null)
             {
-                if(grabbedGameObjectRight.transform.parent != source.gameObject.transform)
+                if(grabbedGameObject.transform.parent != source.gameObject.transform)
                 {
-                    grabbedGameObjectRight.GetComponent<MeshRenderer>().material.color = Color.green;
-                    grabbedGameObjectRight = null;
+                    grabbedGameObject.GetComponent<MeshRenderer>().material.color = Color.green;
+                    grabbedGameObject = null;
                 }
 
             }

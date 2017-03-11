@@ -1,0 +1,8 @@
+{
+	"Identifier":"2b025ea3-b4b5-4ed4-9a97-ef0eca1547f7"	, 
+	"Time":"3/11/2017 6:09:09 PM"	, 
+	"Group":1898	, 
+	"DataRecordId":"00e43368-002c-46f0-a039-364c0b784035"	, 
+	"Type":1	, 
+	"RecordType":"uFrame.ECS.Editor.HandlerNode, Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"	, 
+	"Data":"{\r\n\t\"CodeHandler\":false\t, \r\n\t\"Custom\":false\t, \r\n\t\"MetaType\":\"3d8d5144-99a0-44e6-b8f1-1939ba6eac58\"\t, \r\n\t\"VariableCount\":0\t, \r\n\t\"VariableName\":\"HandlerNode12\"\t, \r\n\t\"Name\":\"InputSystemShootEvent\"\t, \r\n\t\"Order\":0\t, \r\n\t\"GraphId\":\"bb6b8620-a43b-476b-a115-c788fbdf919c\"\t, \r\n\t\"Identifier\":\"00e43368-002c-46f0-a039-364c0b784035\"\t, \r\n\t\"Expanded\":false}\r\n"}
