@@ -1,8 +1,0 @@
-{
-	"Identifier":"714a78d5-2186-4aab-a91f-915e17cd0542"	, 
-	"Time":"3/11/2017 6:09:09 PM"	, 
-	"Group":1898	, 
-	"DataRecordId":"fa18215d-07bd-4eb9-841b-9595791fd8c9"	, 
-	"Type":1	, 
-	"RecordType":"uFrame.ECS.Editor.HandlerNode, Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"	, 
-	"Data":"{\r\n\t\"CodeHandler\":false\t, \r\n\t\"Custom\":false\t, \r\n\t\"MetaType\":\"f1a20de2-f212-4dbd-ba61-a81a0a7cb9f2\"\t, \r\n\t\"VariableCount\":0\t, \r\n\t\"VariableName\":\"HandlerNode14\"\t, \r\n\t\"Name\":\"InputSystemTeleportEvent\"\t, \r\n\t\"Order\":0\t, \r\n\t\"GraphId\":\"bb6b8620-a43b-476b-a115-c788fbdf919c\"\t, \r\n\t\"Identifier\":\"fa18215d-07bd-4eb9-841b-9595791fd8c9\"\t, \r\n\t\"Expanded\":false}\r\n"}

@@ -1,8 +1,0 @@
-{
-	"Identifier":"cfbf8dfb-6427-46b0-98cc-9981d24885fa"	, 
-	"Time":"3/11/2017 6:09:09 PM"	, 
-	"Group":1898	, 
-	"DataRecordId":"37b226ce-b649-4ede-91b2-1b33ce673c18"	, 
-	"Type":1	, 
-	"RecordType":"uFrame.Editor.Graphs.Data.FilterItem, Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"	, 
-	"Data":"{\r\n\t\"Identifier\":\"37b226ce-b649-4ede-91b2-1b33ce673c18\"\t, \r\n\t\"Collapsed\":false\t, \r\n\t\"NodeId\":\"522a3f72-2d74-422e-928a-21d8a8c0075e\"\t, \r\n\t\"FilterId\":\"87a508dc-5402-4299-bafa-d68562dad086\"\t, \r\n\t\"Position\":\t{\r\n\t\t\"x\":876\t\t, \r\n\t\t\"y\":96\t}\r\n}\r\n"}

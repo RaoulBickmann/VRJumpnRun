@@ -19,7 +19,7 @@ namespace ViveDB {
     using ViveDB;
     
     
-    [uFrame.Attributes.EventId(5)]
+    [uFrame.Attributes.EventId(3)]
     public partial class RigMoveEvent : object {
         
         [UnityEngine.SerializeField()]

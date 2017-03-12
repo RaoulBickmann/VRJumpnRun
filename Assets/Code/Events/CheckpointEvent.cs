@@ -19,7 +19,7 @@ namespace ViveDB {
     using ViveDB;
     
     
-    [uFrame.Attributes.EventId(7)]
+    [uFrame.Attributes.EventId(5)]
     public partial class CheckpointEvent : object {
     }
 }

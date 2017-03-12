@@ -19,7 +19,7 @@ namespace ViveDB {
     using ViveDB;
     
     
-    [uFrame.Attributes.EventId(4)]
+    [uFrame.Attributes.EventId(2)]
     public partial class PlayerMoveEvent : object {
         
         [UnityEngine.SerializeField()]

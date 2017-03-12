@@ -19,7 +19,7 @@ namespace ViveDB {
     using ViveDB;
     
     
-    [uFrame.Attributes.EventId(6)]
+    [uFrame.Attributes.EventId(4)]
     public partial class DeathEvent : object {
     }
 }

@@ -19,7 +19,7 @@ namespace ViveDB {
     using ViveDB;
     
     
-    [uFrame.Attributes.EventId(8)]
+    [uFrame.Attributes.EventId(6)]
     public partial class MenuEvent : object {
     }
 }

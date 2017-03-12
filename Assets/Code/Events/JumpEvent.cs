@@ -19,7 +19,7 @@ namespace ViveDB {
     using ViveDB;
     
     
-    [uFrame.Attributes.EventId(2)]
+    [uFrame.Attributes.EventId(1)]
     public partial class JumpEvent : object {
     }
 }

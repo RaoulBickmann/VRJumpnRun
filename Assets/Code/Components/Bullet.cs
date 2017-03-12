@@ -24,36 +24,10 @@ namespace ViveDB {
     [uFrame.Attributes.uFrameIdentifier("14bceec3-46c7-4d32-9bfa-f7aa9ea57c47")]
     public partial class Bullet : uFrame.ECS.Components.EcsComponent {
         
-        [UnityEngine.SerializeField()]
-        private Int32 _Properties;
-        
-        private Subject<PropertyChangedEvent<Int32>> _PropertiesObservable;
-        
-        private PropertyChangedEvent<Int32> _PropertiesEvent;
-        
         public override int ComponentId {
             get {
                 return 11;
             }
-        }
-        
-        public IObservable<PropertyChangedEvent<Int32>> PropertiesObservable {
-            get {
-                return _PropertiesObservable ?? (_PropertiesObservable = new Subject<PropertyChangedEvent<Int32>>());
-            }
-        }
-        
-        public Int32 Properties {
-            get {
-                return _Properties;
-            }
-            set {
-                SetProperties(value);
-            }
-        }
-        
-        public virtual void SetProperties(Int32 value) {
-            SetProperty(ref _Properties, value, ref _PropertiesEvent, _PropertiesObservable);
         }
     }
 }
