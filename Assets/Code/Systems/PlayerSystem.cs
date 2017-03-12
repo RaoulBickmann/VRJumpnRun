@@ -31,6 +31,9 @@ namespace ViveDB {
             base.PlayerSystemPlayerMoveEventHandler(data, group);
             group.transform.Translate(new Vector3(data.movement.x, 0, data.movement.y) * (float)group.moveSpeed, Space.Self);
             group.transform.rotation = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0);
+            //Vector3 temp = new Vector3(data.movement.x, 0, data.movement.y);
+            //temp = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up) * temp;
+            //group.transform.Translate(temp * 1.5f, Space.Self);
         }
 
         protected override void PlayerSystemJumpEventHandler(JumpEvent data, Player @group)
