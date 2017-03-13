@@ -1,8 +1,0 @@
-{
-	"Identifier":"00355296-b703-46a4-a0bd-17ce99aeced6"	, 
-	"Time":"3/12/2017 8:27:09 PM"	, 
-	"Group":20279	, 
-	"DataRecordId":"8d0d3c91-1c97-4ebc-9007-107f90c05a0e"	, 
-	"Type":2	, 
-	"RecordType":"uFrame.ECS.Editor.HandlerIn, Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"	, 
-	"Data":"{\r\n\t\"Identifier\":\"8d0d3c91-1c97-4ebc-9007-107f90c05a0e\"\t, \r\n\t\"Order\":0}\r\n"}
